@@ -1,0 +1,162 @@
+/* Page Styling */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e40af,
+    #3b82f6
+  );
+}
+
+
+/* Navbar */
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  gap: 20px;
+}
+
+nav h1 {
+  font-size: 2rem;
+  margin:0;
+}
+
+nav p {
+  display: flex;
+  gap: 10px;
+  margin-left:50px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #38bdf8;
+}
+
+
+/* Hero */
+
+.hero {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+
+/* Button */
+
+button {
+  background-color: #88a8ee;
+  color: rgb(69, 64, 64);
+
+  border: none;
+
+  padding: 12px 25px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #e2e8f0;
+}
+
+
+/* Cards */
+
+.card-container {
+  display: flex;
+  justify-content: center;
+
+  gap: 25px;
+
+  flex-wrap: wrap;
+
+  margin-top: 50px;
+}
+
+.card {
+  width: 280px;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 15px;
+}
+
+.card p {
+  color: white;
+}
+
+
+/* Footer */
+
+footer {
+  text-align: center;
+
+  margin-top: 50px;
+
+  padding: 20px;
+}
+
+
+/* Mobile Responsive */
+
+@media (max-width: 768px) {
+
+  nav {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav h1 {
+    font-size: 2rem;
+  }
+
+  nav p {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .card {
+    width: 90%;
+  }
+
+}
