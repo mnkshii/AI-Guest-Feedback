@@ -52,7 +52,7 @@ nav a:hover {
   padding: 30px 20px;
 }
 
-.hero h1 {
+.hero h2 {
   font-size: 3rem;
   margin-bottom: 20px;
 }
@@ -76,7 +76,7 @@ button {
 
   cursor: pointer;
 
-  margin-top: 21px;
+  margin-top: 20px;
 }
 
 button:hover {
@@ -104,7 +104,7 @@ button:hover {
 
   border-radius: 15px;
 
-  background: rgba(59, 50, 50, 0.12);
+  background: rgba(128, 122, 122, 0.12);
 
   backdrop-filter: blur(10px);
 
