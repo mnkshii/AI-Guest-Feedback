@@ -25,7 +25,7 @@ nav {
 }
 
 nav h1 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin:0;
 }
 
@@ -76,7 +76,7 @@ button {
 
   cursor: pointer;
 
-  margin-top: 20px;
+  margin-top: 21px;
 }
 
 button:hover {
@@ -104,7 +104,7 @@ button:hover {
 
   border-radius: 15px;
 
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(59, 50, 50, 0.12);
 
   backdrop-filter: blur(10px);
 
