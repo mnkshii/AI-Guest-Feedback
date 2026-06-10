@@ -2,7 +2,7 @@ function Hero()
 {
     return(
         <div className="hero">
-            <h1>Understand Guest Reviews with AI</h1>
+            <h2>Understand Guest Reviews with AI</h2>
 
             <p>
                 Analyze guest feedback and generate useful insights.
