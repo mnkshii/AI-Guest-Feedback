@@ -1,21 +1,38 @@
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Card from "../components/Card";
-import Footer from "../components/Footer";
-
-function Home() {
+// src/pages/Home.jsx
+const Home = () => {
   return (
-    <div className="card-container">
-      <Navbar />
+    <>
+      {/* Hero section */}
+      <section className="hero">
+        <div className="badge">
+          <i className="fas fa-bolt"></i> AI powered insights for hotels
+        </div>
+        <h2>Understand Guest Reviews with AI</h2>
+        <p>Analyze guest feedback in real-time with our advanced AI-powered insights.</p>
+        <button className="btn-glow" onClick={() => alert('✨ Welcome to the AI Guest Feedback Analyzer!')}>
+          <i className="fas fa-sparkle"></i> Get Started →
+        </button>
+      </section>
 
-      <Hero />
-
-      <Card title="Sentiment Analysis" description="Detect positive, neutral and negative reviews." />
-      <Card title="Keyword Extraction" description="Identify important keywords and phrases in reviews." />
-      <Card title="AI Response Generator" description="Generate professional responses for the guest reviews." />
-      <Footer />
-    </div>
+      {/* Cards */}
+      <div className="card-container">
+        <div className="card">
+          
+          <h3>Sentiment Analysis</h3>
+          <p>Detect positive, negative and neutral reviews.</p>
+        </div>
+        <div className="card">
+          <h3>Keyword Extraction</h3>
+          <p>Identify key themes and topics in reviews automatically.</p>
+        </div>
+        <div className="card">
+         
+          <h3>AI Response Generator</h3>
+          <p>Generate personalized responses to guest feedback using AI.</p>
+        </div>
+      </div>
+    </>
   );
-}
+};
 
 export default Home;

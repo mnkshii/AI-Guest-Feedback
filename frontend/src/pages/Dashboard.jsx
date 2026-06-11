@@ -4,15 +4,17 @@ import Footer from "../components/Footer";
 function Dashboard() {
   return (
     <div>
-      <Navbar />
+      <section className="hero">
+        <h2>Dashboard</h2>
+      </section>
 
-      <h1>Dashboard</h1>
+     
 
       <p>
         Dashboard page placeholder.
       </p>
 
-      <Footer />
+     
     </div>
   );
 }

@@ -4,15 +4,17 @@ import Footer from "../components/Footer";
 function Login() {
   return (
     <div>
-      <Navbar />
+      <section className="hero">
+        <h2>Login</h2>
+      </section>
 
-      <h1>Login</h1>
+     
 
       <p>
         Login page placeholder.
       </p>
 
-      <Footer />
+     
     </div>
   );
 }

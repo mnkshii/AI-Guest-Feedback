@@ -4,15 +4,21 @@ import Footer from "../components/Footer";
 function About() {
   return (
     <div>
-      <Navbar />
+       <section className="hero">
+        
+          
+        <h2>About</h2>
+        
+        
+      </section>
 
-      <h1>About</h1>
+     
 
       <p>
         This application helps analyze guest reviews using AI.
       </p>
 
-      <Footer />
+     
     </div>
   );
 }
