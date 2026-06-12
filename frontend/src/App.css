@@ -57,7 +57,7 @@ html {
 }
 
 .hamburger {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(106, 148, 216, 0.2);
   border: 1px solid rgba(59, 130, 246, 0.5);
   font-size: 1.8rem;
   color: white;
@@ -163,7 +163,7 @@ html {
 }
 
 .badge {
-  background: rgba(90, 127, 182, 0.2);
+  background: rgba(91, 119, 161, 0.319);
   display: inline-block;
   padding: 6px 16px;
   border-radius: 50px;
@@ -174,7 +174,7 @@ html {
 }
 
 .btn-glow {
-  background: linear-gradient(105deg, #7084a4, #5a82d7);
+  background: linear-gradient(105deg, #08409b, #2e58b3);
   color: white;
   border: none;
   padding: 14px 34px;
