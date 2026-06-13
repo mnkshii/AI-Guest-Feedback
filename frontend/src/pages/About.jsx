@@ -1,5 +1,4 @@
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 function About() {
   return (
@@ -11,8 +10,6 @@ function About() {
         
         
       </section>
-
-     
 
       <p>
         This application helps analyze guest reviews using AI.

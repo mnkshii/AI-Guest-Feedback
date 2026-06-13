@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout";
@@ -12,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Wrap all routes with Layout */}
+        
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
