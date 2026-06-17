@@ -1,22 +1,14 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-
-function Dashboard() {
+export default function Dashboard() {
   return (
-    <div>
-      <section className="hero">
-        <h2>Dashboard</h2>
-      </section>
+    <div className="p-8">
+      <h1>Dashboard</h1>
 
-     
-
-      <p>
-        Dashboard page placeholder.
-      </p>
-
-     
+      <div className="grid gap-4 mt-6">
+        <div>Total Reviews: 120</div>
+        <div>Positive Reviews: 85</div>
+        <div>Negative Reviews: 20</div>
+        <div>Neutral Reviews: 15</div>
+      </div>
     </div>
   );
 }
-
-export default Dashboard;
