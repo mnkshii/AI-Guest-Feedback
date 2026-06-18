@@ -1,27 +1,17 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Footer from './Footer';
+import { useTheme } from '../context/ThemeContext';   // 👈 import the hook
+import { ThemeToggle } from '../components/ThemeToggle'; // 👈 the toggle button
+
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'dark';
-  });
-
-  
-  useEffect(() => {
-    document.body.classList.remove('dark', 'light');
-    document.body.classList.add(theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  const { theme, toggleTheme } = useTheme(); // 👈 consume context
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
 
-  
+  // Close sidebar on Escape key
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape' && sidebarOpen) closeSidebar();
@@ -37,7 +27,8 @@ const Layout = () => {
           <h1><i className="fas fa-cube"></i>AI Guest Feedback</h1>
         </div>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-         
+          {/* 👇 Theme toggle button */}
+          <ThemeToggle />
           <button className="hamburger" onClick={toggleSidebar}>
             <i className="fas fa-bars"></i>
             <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>MENU</span>
@@ -45,7 +36,7 @@ const Layout = () => {
         </div>
       </nav>
 
-      {/* Sidebar*/}
+      {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <ul>
           <li><Link to="/" onClick={closeSidebar}><i className="fas fa-home"></i> Home</Link></li>
@@ -63,7 +54,6 @@ const Layout = () => {
       </main>
 
       <Footer />
-        
     </>
   );
 };

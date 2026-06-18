@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Button } from "../components/ui";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,11 +28,11 @@ const Login = () => {
   };
 
   return (
-  
     
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
+         
           <i className="fas fa-sign-in-alt"></i>
           <p>Sign in to your account</p>
         </div>
@@ -68,9 +68,9 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="btn-glow login-btn">
+          <Button type="submit">
             <i className="fas fa-arrow-right-to-bracket"></i> Sign In
-          </button>
+          </Button>
         </form>
 
         <div className="login-footer">
@@ -85,4 +85,4 @@ const Login = () => {
 export default Login;
 
 
-//forgot page and registerpage are not created yet.
+//forgot password page and registerpage are not created yet.
