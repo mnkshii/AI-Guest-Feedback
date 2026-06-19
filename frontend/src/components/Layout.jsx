@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Footer from './Footer';
-import { useTheme } from '../context/ThemeContext';   // 👈 import the hook
-import { ThemeToggle } from '../components/ThemeToggle'; // 👈 the toggle button
+import { useTheme } from '../context/ThemeContext';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme(); // 👈 consume context
+  const { theme, toggleTheme } = useTheme(); // global theme (if needed elsewhere)
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
@@ -27,7 +27,7 @@ const Layout = () => {
           <h1><i className="fas fa-cube"></i>AI Guest Feedback</h1>
         </div>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          {/* 👇 Theme toggle button */}
+          {/* Theme toggle – inline inside navbar */}
           <ThemeToggle />
           <button className="hamburger" onClick={toggleSidebar}>
             <i className="fas fa-bars"></i>
@@ -42,6 +42,8 @@ const Layout = () => {
           <li><Link to="/" onClick={closeSidebar}><i className="fas fa-home"></i> Home</Link></li>
           <li><Link to="/about" onClick={closeSidebar}><i className="fas fa-info-circle"></i> About</Link></li>
           <li><Link to="/dashboard" onClick={closeSidebar}><i className="fas fa-chart-line"></i> Dashboard</Link></li>
+          <li><Link to="/analysis" onClick={closeSidebar}><i className="fas fa-robot"></i> AI Analysis</Link></li>
+          <li><Link to="/report" onClick={closeSidebar}><i className="fas fa-file-alt"></i> Report</Link></li>
           <li><Link to="/login" onClick={closeSidebar}><i className="fas fa-sign-in-alt"></i> Login</Link></li>
         </ul>
       </div>

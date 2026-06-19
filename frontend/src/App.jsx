@@ -5,9 +5,9 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import AIAnalysis from "./pages/AIAnalysis";
+import Report from "./pages/Report";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
-// 👇 ThemeProvider only – no ThemeToggle here
 import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
@@ -20,6 +20,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/analysis" element={<AIAnalysis />} />
+            <Route path="/report" element={<Report />} />
           </Route>
         </Routes>
       </BrowserRouter>
