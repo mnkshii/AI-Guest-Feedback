@@ -95,8 +95,8 @@ npm install
 ### 3. Create a .env file
 
 ```env
-PORT=5000
-CLIENT_URL=http://localhost:5173
+PORT=YOUR_PORT
+CLIENT_URL=YOUR_FRONTEND_URL
 ```
 
 ### 4. Start the backend server
