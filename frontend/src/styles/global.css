@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   FLOATING BUBBLES – Subtle & Elegant
+========================================== */
+
+.bubbles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bubbles span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  animation: floatBubble linear infinite;
+  opacity: 0.5;
+}
+
+.bubbles span:nth-child(1) {
+  width: 380px;
+  height: 380px;
+  left: -120px;
+  top: -60px;
+  animation-duration: 25s;
+  background: radial-gradient(circle, var(--bubble-primary), transparent 70%);
+  opacity: 0.5;
+}
+
+.bubbles span:nth-child(2) {
+  width: 280px;
+  height: 280px;
+  right: -80px;
+  top: 8%;
+  animation-duration: 20s;
+  background: radial-gradient(circle, var(--bubble-secondary), transparent 70%);
+  opacity: 0.4;
+}
+
+.bubbles span:nth-child(3) {
+  width: 330px;
+  height: 330px;
+  left: 20%;
+  bottom: -100px;
+  animation-duration: 28s;
+  background: radial-gradient(circle, var(--bubble-tertiary), transparent 70%);
+  opacity: 0.45;
+}
+
+.bubbles span:nth-child(4) {
+  width: 200px;
+  height: 200px;
+  right: 15%;
+  bottom: 25%;
+  animation-duration: 18s;
+  background: radial-gradient(circle, var(--bubble-primary), transparent 70%);
+  opacity: 0.3;
+}
+
+.bubbles span:nth-child(5) {
+  width: 140px;
+  height: 140px;
+  left: 55%;
+  top: 30%;
+  animation-duration: 15s;
+  background: radial-gradient(circle, var(--bubble-secondary), transparent 70%);
+  opacity: 0.35;
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-60px) scale(1.08); }
+}
+
+/* ==========================================
+   COMMON STYLES
+========================================== */
+
+section {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-hover);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.30);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.40);
+}
+
+.btn-outline {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.btn-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  border-radius: 14px;
+  background: var(--gradient);
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.30);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-glow:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 48px rgba(37, 99, 235, 0.45);
+}
+
+/* Container */
+.container {
+  width: min(1300px, 92%);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Dark theme refinements */
+[data-theme="dark"] .btn-outline {
+  background: rgba(30, 41, 59, 0.85);
+  color: var(--text);
+  border-color: rgba(96, 165, 250, 0.15);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  border-color: var(--primary);
+}

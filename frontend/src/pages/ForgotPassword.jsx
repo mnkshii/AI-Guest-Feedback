@@ -1,8 +1,10 @@
-export default function ForgotPassword() {
+const ForgotPassword = () => {
   return (
-    <div>
+    <div className="page-container">
       <h1>Forgot Password</h1>
-      <p>Coming Soon</p>
+      <p>This feature will be available soon.</p>
     </div>
   );
-}
+};
+
+export default ForgotPassword;

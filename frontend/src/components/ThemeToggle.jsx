@@ -1,18 +1,31 @@
-import React from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
-export function ThemeToggle() {
+function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
 
   return (
     <button
       className="theme-toggle"
       onClick={toggleTheme}
-      aria-label="Toggle theme"
+      aria-label="Toggle Theme"
+      title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
     >
-      <span className="icon">{isDark ? '🌙' : '☀️'}</span>
-      <span>{isDark ? 'Dark' : 'Light'}</span>
+      <Sun
+        size={18}
+        className={theme === "light" ? "active" : ""}
+      />
+
+      <Moon
+        size={18}
+        className={theme === "dark" ? "active" : ""}
+      />
+
+      <div
+        className={`toggle-ball ${theme}`}
+      />
     </button>
   );
 }
+
+export default ThemeToggle;

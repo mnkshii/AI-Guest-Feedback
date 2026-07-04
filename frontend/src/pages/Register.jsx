@@ -1,8 +1,10 @@
-export default function Register() {
+const Register = () => {
   return (
-    <div>
-      <h1>Register Page</h1>
-      <p>Coming Soon</p>
+    <div className="page-container">
+      <h1>Register</h1>
+      <p>This feature will be available soon.</p>
     </div>
   );
-}
+};
+
+export default Register;

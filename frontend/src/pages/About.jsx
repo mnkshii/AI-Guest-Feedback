@@ -1,71 +1,152 @@
-const About = () => {
+import {
+  Target,
+  Cpu,
+  BarChart3,
+  CheckCircle,
+  Users,
+  Rocket,
+} from "lucide-react";
+
+function About() {
   return (
-    <div className="about-container">
-      <div className="about-header">
-        <div className="badge">
-          <i className="fas fa-info-circle"></i> About Us
-        </div>
-        <h1>AI-Powered Guest Feedback Analysis</h1>
-        <p>Transforming hotel reviews into actionable insights using cutting-edge artificial intelligence.</p>
-      </div>
+    <section className="about-container">
 
-      <div className="about-content">
-        <div className="about-card">
-          <i className="fas fa-bullseye"></i>
-          <h2>Our Mission</h2>
-          <p>
-            To empower hotels and hospitality businesses with real-time, AI-driven feedback analysis
-            that turns guest reviews into strategic advantages. We believe every review holds valuable
-            insights – and we make them accessible instantly.
-          </p>
-        </div>
+      <div className="section-title">
 
-        <div className="about-card">
-          <i className="fas fa-microchip"></i>
-          <h2>How It Works</h2>
-          <p>
-            Our advanced NLP models analyze thousands of reviews in seconds, detecting sentiment,
-            extracting key topics (like "cleanliness", "service", "location"), and generating
-            personalized AI responses – saving hours of manual work.
-          </p>
-        </div>
+        <span>About Us</span>
 
-        <div className="about-card">
-          <i className="fas fa-chart-simple"></i>
-          <h2>Why Choose Us</h2>
-          <ul className="about-list">
-            <li><i className="fas fa-check-circle"></i> Real-time sentiment analysis</li>
-            <li><i className="fas fa-check-circle"></i> Multi-language support</li>
-            <li><i className="fas fa-check-circle"></i> Customizable dashboards</li>
-            <li><i className="fas fa-check-circle"></i> AI-generated response drafts</li>
-            <li><i className="fas fa-check-circle"></i> Export reports in one click</li>
-          </ul>
-        </div>
-      </div>
+        <h2>AI-Powered Guest Feedback Analysis</h2>
 
-      <div className="team-section">
-        <h2><i className="fas fa-users"></i> Built With Passion</h2>
         <p>
-          We're a team of AI engineers, UX designers, and hospitality experts dedicated to making
-          guest feedback management effortless and insightful.
+          Transform hotel guest reviews into actionable insights using
+          Artificial Intelligence, Natural Language Processing and
+          real-time analytics.
         </p>
-        <div className="tech-stack">
-          <span>React</span>
-          <span>Node.js</span>
-          <span>Python</span>
-          <span>OpenAI API</span>
-          <span>MongoDB</span>
-        </div>
+
       </div>
 
-      <div className="about-cta">
-        <h3>Ready to transform your guest reviews?</h3>
-        <button className="btn-glow" onClick={() => alert('Sign up feature coming soon!')}>
-          <i className="fas fa-rocket"></i> Get Started Today
-        </button>
+      <div className="features-grid">
+
+        <div className="feature-card">
+
+          <div className="feature-icon">
+            <Target />
+          </div>
+
+          <h3>Our Mission</h3>
+
+          <p>
+            We help hotels understand guest experiences by converting
+            thousands of reviews into meaningful insights that improve
+            customer satisfaction and business performance.
+          </p>
+
+        </div>
+
+        <div className="feature-card">
+
+          <div className="feature-icon">
+            <Cpu />
+          </div>
+
+          <h3>How It Works</h3>
+
+          <p>
+            Our AI models perform sentiment analysis, keyword extraction,
+            review summarization and intelligent response generation in
+            just a few seconds.
+          </p>
+
+        </div>
+
+        <div className="feature-card">
+
+          <div className="feature-icon">
+            <BarChart3 />
+          </div>
+
+          <h3>Why Choose Us</h3>
+
+          <ul className="about-list">
+
+            <li><CheckCircle size={18}/> Real-time Sentiment Analysis</li>
+
+            <li><CheckCircle size={18}/> AI Response Generator</li>
+
+            <li><CheckCircle size={18}/> Interactive Dashboard</li>
+
+            <li><CheckCircle size={18}/> Multi-language Support</li>
+
+            <li><CheckCircle size={18}/> Export Reports</li>
+
+          </ul>
+
+        </div>
+
       </div>
-    </div>
+
+      <section className="team-section">
+
+        <div className="section-title">
+
+          <span>Technology</span>
+
+          <h2>
+            <Users size={34}/>
+            &nbsp;Built With Modern Technologies
+          </h2>
+
+          <p>
+            We combine Artificial Intelligence with modern web
+            technologies to create a fast, reliable and intelligent
+            guest feedback platform.
+          </p>
+
+        </div>
+
+        <div className="tech-stack">
+
+          <span>React</span>
+
+          <span>Node.js</span>
+
+          <span>Express</span>
+
+          <span>MongoDB</span>
+
+          <span>Python</span>
+
+          <span>OpenAI API</span>
+
+        </div>
+
+      </section>
+
+      <section className="cta">
+
+        <div className="cta-box">
+
+          <h2>Ready to Improve Guest Satisfaction?</h2>
+
+          <p>
+            Discover how Artificial Intelligence can help you understand
+            customer feedback and improve hotel experiences.
+          </p>
+
+          <button
+            className="btn btn-primary"
+            onClick={() => alert("Coming Soon!")}
+          >
+            <Rocket size={18}/>
+            &nbsp;Get Started
+          </button>
+
+        </div>
+
+      </section>
+
+    </section>
   );
-};
+}
 
 export default About;

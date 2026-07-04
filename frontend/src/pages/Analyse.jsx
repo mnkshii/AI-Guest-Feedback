@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "../components/ui";
 
 export default function Analyze() {
   const [result, setResult] = useState("");
@@ -15,9 +16,9 @@ export default function Analyze() {
         placeholder="Paste Review Here"
       />
 
-      <button onClick={analyzeReview}>
+      <Button onClick={analyzeReview}>
         Analyze
-      </button>
+      </Button>
 
       <p>{result}</p>
     </div>

@@ -1,0 +1,74 @@
+/* ==========================================
+   LIGHT THEME
+========================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --secondary: #7c3aed;
+  --gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  --gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
+
+  --bg: #f8fafc;
+  --bg-secondary: #f1f5f9;
+
+  --card: rgba(255, 255, 255, 0.85);
+  --glass: rgba(255, 255, 255, 0.70);
+  --border: rgba(37, 99, 235, 0.10);
+  --border-hover: rgba(37, 99, 235, 0.20);
+
+  --text: #0f172a;
+  --text-light: #64748b;
+  --text-lighter: #94a3b8;
+
+  --shadow: 0 4px 24px rgba(37, 99, 235, 0.08);
+  --shadow-lg: 0 20px 60px rgba(37, 99, 235, 0.12);
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Bubble colors – light mode */
+  --bubble-primary: rgba(37, 99, 235, 0.08);
+  --bubble-secondary: rgba(124, 58, 237, 0.06);
+  --bubble-tertiary: rgba(59, 130, 246, 0.06);
+}
+
+/* ==========================================
+   DARK THEME – Softer & more natural
+========================================== */
+
+[data-theme="dark"] {
+  --primary: #60a5fa;
+  --primary-light: #93bbfc;
+  --secondary: #a78bfa;
+  --gradient: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  --gradient-hover: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+
+  /* Not pure black – deep blue‑gray */
+  --bg: #0f172a;
+  --bg-secondary: #1e293b;
+
+  /* Slightly transparent glass */
+  --card: rgba(30, 41, 59, 0.80);
+  --glass: rgba(30, 41, 59, 0.60);
+  --border: rgba(96, 165, 250, 0.08);
+  --border-hover: rgba(96, 165, 250, 0.18);
+
+  /* Softer text – not pure white */
+  --text: #e8edf5;
+  --text-light: #94a3b8;
+  --text-lighter: #64748b;
+
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.40);
+
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  /* Bubble colors – more subtle in dark mode */
+  --bubble-primary: rgba(96, 165, 250, 0.06);
+  --bubble-secondary: rgba(167, 139, 250, 0.05);
+  --bubble-tertiary: rgba(96, 165, 250, 0.04);
+}

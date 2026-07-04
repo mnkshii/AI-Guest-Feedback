@@ -1,0 +1,128 @@
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer {
+  margin-top: 60px;
+  padding: 60px 0 30px;
+  background: transparent;
+  border-top: 1px solid var(--border);
+}
+
+.footer-container {
+  width: min(1300px, 92%);
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 50px;
+  padding: 40px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow);
+}
+
+.footer-logo h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.footer-logo p {
+  color: var(--text-light);
+  line-height: 1.8;
+  max-width: 300px;
+}
+
+.footer-links h3,
+.footer-contact h3,
+.footer-social h3 {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+
+.footer-links a {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.footer-contact p {
+  margin-bottom: 8px;
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.06);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.footer-social a:hover {
+  background: var(--gradient);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .footer-logo p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    padding: 30px 24px;
+  }
+
+  .footer {
+    padding: 40px 0 20px;
+  }
+}

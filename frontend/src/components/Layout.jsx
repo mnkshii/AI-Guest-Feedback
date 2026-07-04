@@ -1,55 +1,101 @@
-import { useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import Footer from './Footer';
-import { useTheme } from '../context/ThemeContext';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { useEffect, useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import {
+  Menu,
+  X,
+  Home,
+  Info,
+  LayoutDashboard,
+  BrainCircuit,
+  FileBarChart2,
+  LogIn,
+} from "lucide-react";
 
-const Layout = () => {
+import Footer from "./Footer";
+import ThemeToggle from "./ThemeToggle";
+
+function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme(); // global theme (if needed elsewhere)
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const closeSidebar = () => setSidebarOpen(false);
-
-  // Close sidebar on Escape key
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === 'Escape' && sidebarOpen) closeSidebar();
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
     };
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [sidebarOpen]);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
     <>
-      <nav className="navbar">
-        <div className="logo">
-          <h1><i className="fas fa-cube"></i>AI Guest Feedback</h1>
+      {/* BUBBLES - FLOATING BACKGROUND */}
+      <div className="bubbles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+        <NavLink to="/" className="logo">
+          <h1>AI Guest Feedback</h1>
+        </NavLink>
+
+        <div className="nav-links">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink to="/analysis">AI Analysis</NavLink>
+          <NavLink to="/report">Reports</NavLink>
+          <NavLink to="/login">Login</NavLink>
         </div>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          {/* Theme toggle – inline inside navbar */}
+
+        <div className="nav-right">
           <ThemeToggle />
-          <button className="hamburger" onClick={toggleSidebar}>
-            <i className="fas fa-bars"></i>
-            <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>MENU</span>
+          <button
+            className="hamburger"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu size={22} />
           </button>
         </div>
       </nav>
 
-      {/* Sidebar */}
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <ul>
-          <li><Link to="/" onClick={closeSidebar}><i className="fas fa-home"></i> Home</Link></li>
-          <li><Link to="/about" onClick={closeSidebar}><i className="fas fa-info-circle"></i> About</Link></li>
-          <li><Link to="/dashboard" onClick={closeSidebar}><i className="fas fa-chart-line"></i> Dashboard</Link></li>
-          <li><Link to="/analysis" onClick={closeSidebar}><i className="fas fa-robot"></i> AI Analysis</Link></li>
-          <li><Link to="/report" onClick={closeSidebar}><i className="fas fa-file-alt"></i> Report</Link></li>
-          <li><Link to="/login" onClick={closeSidebar}><i className="fas fa-sign-in-alt"></i> Login</Link></li>
-        </ul>
-      </div>
+      <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={closeSidebar}>
+          <X size={24} />
+        </button>
+        <NavLink to="/" onClick={closeSidebar}>
+          <Home size={18} />
+          Home
+        </NavLink>
+        <NavLink to="/about" onClick={closeSidebar}>
+          <Info size={18} />
+          About
+        </NavLink>
+        <NavLink to="/dashboard" onClick={closeSidebar}>
+          <LayoutDashboard size={18} />
+          Dashboard
+        </NavLink>
+        <NavLink to="/analysis" onClick={closeSidebar}>
+          <BrainCircuit size={18} />
+          AI Analysis
+        </NavLink>
+        <NavLink to="/report" onClick={closeSidebar}>
+          <FileBarChart2 size={18} />
+          Reports
+        </NavLink>
+        <NavLink to="/login" onClick={closeSidebar}>
+          <LogIn size={18} />
+          Login
+        </NavLink>
+      </aside>
 
-      {/* Backdrop */}
-      <div className={`backdrop ${sidebarOpen ? 'show' : ''}`} onClick={closeSidebar}></div>
+      <div className={`backdrop ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
 
       <main>
         <Outlet />
@@ -58,6 +104,6 @@ const Layout = () => {
       <Footer />
     </>
   );
-};
+}
 
 export default Layout;

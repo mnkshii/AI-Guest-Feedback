@@ -1,88 +1,122 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from "../components/ui";
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Mail, Lock, LogIn, AlertCircle } from "lucide-react";
+
+function Login() {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
 
-    // Simple validation (replace with real auth later)
+    setError("");
+
     if (!email || !password) {
-      setError('Please fill in both fields.');
+      setError("Please enter both email and password.");
       return;
     }
 
-    // Dummy authentication – replace with API call
-    if (email === 'demo@example.com' && password === 'password') {
-      alert('Login successful! Redirecting to dashboard...');
-      navigate('/dashboard');
+    // Temporary login until backend authentication is ready
+    if (email === "demo@example.com" && password === "password") {
+      alert("Login Successful!");
+      navigate("/dashboard");
     } else {
-      setError('Invalid email or password. Try demo@example.com / password');
+      setError("Invalid credentials.");
     }
-    
   };
 
   return (
-    
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-         
-          <i className="fas fa-sign-in-alt"></i>
-          <p>Sign in to your account</p>
-        </div>
+    <section className="login-container">
 
-        {error && <div className="login-error">{error}</div>}
+      <div className="login-card">
+
+        <h2>Welcome Back </h2>
+
+        <p>
+          Login to access your AI Guest Feedback Dashboard.
+        </p>
+
+        {error && (
+          <div className="login-error">
+            <AlertCircle size={18} />
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
+
           <div className="input-group">
-            <label htmlFor="email">
-              <i className="fas fa-envelope"></i> Email Address
+
+            <label>
+              <Mail size={16 }   />
+               Email
             </label>
+
             <input
               type="email"
-              id="email"
+              placeholder="demo@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="demo@example.com"
-              autoComplete="email"
             />
+
           </div>
 
           <div className="input-group">
-            <label htmlFor="password">
-              <i className="fas fa-lock"></i> Password
+
+            <label>
+              <Lock size={18} />
+              Password
             </label>
+
             <input
               type="password"
-              id="password"
+              placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              autoComplete="current-password"
             />
+
           </div>
 
-          <Button type="submit">
-            <i className="fas fa-arrow-right-to-bracket"></i> Sign In
-          </Button>
+          <button
+            className="btn btn-primary"
+            type="submit"
+          >
+            <LogIn size={18} />
+            &nbsp;Sign In
+          </button>
+
         </form>
 
         <div className="login-footer">
-          <p>Don't have an account? <Link to="/register">Create one</Link></p>
-          <p><Link to="/forgot-password">Forgot password?</Link></p>
+
+          <p>
+            Demo Login:
+          </p>
+
+          <p>
+            <strong>Email:</strong> demo@example.com
+          </p>
+
+          <p>
+            <strong>Password:</strong> password
+          </p>
+
+          <br />
+
+          <p>
+            Register and Forgot Password pages will be added
+            after backend authentication is completed.
+          </p>
+
         </div>
+
       </div>
-    </div>
+
+    </section>
   );
-};
+}
 
 export default Login;
-
-
-//forgot password page and registerpage are not created yet.
