@@ -50,10 +50,14 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
-  margin: 0 auto;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-
+.nav-links.active {
+  display: flex;
+}
 .nav-links a {
   position: relative;
   font-size: 0.95rem;
@@ -61,6 +65,7 @@
   color: var(--text-light);
   transition: color 0.3s ease;
   padding: 4px 0;
+  white-space:nowrap;
 }
 
 .nav-links a:hover,

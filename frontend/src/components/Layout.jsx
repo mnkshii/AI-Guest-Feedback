@@ -52,6 +52,7 @@ function Layout() {
           <NavLink to="/analysis">AI Analysis</NavLink>
           <NavLink to="/report">Reports</NavLink>
           <NavLink to="/login">Login</NavLink>
+          <NavLink to="/reviews">Manage Reviews</NavLink>
         </div>
 
         <div className="nav-right">
