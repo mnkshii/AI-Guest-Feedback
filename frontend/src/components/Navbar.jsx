@@ -33,6 +33,18 @@ function Navbar() {
           Dashboard
         </Link>
 
+        <Link to="/reviews" onClick={() => setMenuOpen(false)}>
+          Manage Reviews
+        </Link>
+
+        <Link to="/analysis" onClick={() => setMenuOpen(false)}>
+          AI Analysis
+        </Link>
+
+        <Link to="/report" onClick={() => setMenuOpen(false)}>
+          Report
+        </Link>
+
         <Link to="/login" onClick={() => setMenuOpen(false)}>
           Login
         </Link>
@@ -48,9 +60,7 @@ function Navbar() {
         <div
           className="mobile-menu"
           onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </div>
+        ></div>
       </div>
     </nav>
   );

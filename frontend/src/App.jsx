@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import AIAnalysis from "./pages/AIAnalysis";
 import Report from "./pages/Report";
+import ManageReviews from "./pages/ManageReviews";
 
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/analysis" element={<AIAnalysis />} />
             <Route path="/report" element={<Report />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/reviews" element={<ManageReviews />} />
           </Route>
         </Routes>
       </BrowserRouter>
