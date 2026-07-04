@@ -18,25 +18,31 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      setStats({
-        total: 5,
-        positive: 3,
-        neutral: 1,
-        negative: 1,
-        avgRating: 3.8
-      });
-      setReviews([
-        { id: 1, guest: "John Doe", date: "2026-06-17", rating: 4, comment: "Great stay, very clean!", sentiment: "positive" },
-        { id: 2, guest: "Jane Smith", date: "2026-06-16", rating: 4, comment: "WiFi was slow but room was nice.", sentiment: "neutral" },
-        { id: 3, guest: "Alice Brown", date: "2026-06-15", rating: 3, comment: "Noisy at night, not comfortable.", sentiment: "negative" },
-        { id: 4, guest: "Bob Johnson", date: "2026-06-14", rating: 5, comment: "Excellent location and friendly staff.", sentiment: "positive" },
-        { id: 5, guest: "Emily Davis", date: "2026-06-13", rating: 5, comment: "Perfect stay, highly recommend!", sentiment: "positive" },
-      ]);
-      setLoading(false);
-    }, 1000);
-  }, []);
+  const fetchDashboard = async () => {
+    try {
+      const API = "https://ai-guest-feedback.onrender.com";
 
+      const statsRes = await fetch(`${API}/api/reviews/stats`);
+      const reviewsRes = await fetch(`${API}/api/reviews`);
+
+      if (!statsRes.ok || !reviewsRes.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const statsData = await statsRes.json();
+      const reviewsData = await reviewsRes.json();
+
+      setStats(statsData);
+      setReviews(reviewsData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchDashboard();
+}, []);
   if (loading) {
     return (
       <div className="dashboard-container center">
@@ -153,7 +159,7 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {reviews.map((review) => (
-                <tr key={review.id}>
+                <tr key={review._id}>
                   <td>{review.guest}</td>
                   <td>{review.date}</td>
                   <td>{"★".repeat(review.rating)}</td>
