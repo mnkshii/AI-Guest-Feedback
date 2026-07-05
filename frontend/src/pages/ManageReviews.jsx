@@ -7,11 +7,11 @@ function detectSentiment(comment) {
   const text = comment.toLowerCase();
   const positiveWords = [
     "good", "great", "excellent", "amazing", "awesome",
-    "perfect", "love", "friendly", "clean", "nice",
-    "recommend", "wonderful", "happy", "comfortable", "best"
+    "perfect", "love", "friendly", "clean", "nice","comfortable", "helpful", "professional", "recommend", "wonderful", "happy", "comfortable", "best","future", "fantastic", "pleasant", "satisfying", "enjoyable", "delightful", "superb", "outstanding", "remarkable", "exceptional", "impressive", "favorable", "beneficial", "advantageous", "commendable",
+    "recommend","Very comfy", "wonderful", "happy", "comfortable", "best"
   ];
   const negativeWords = [
-    "bad", "dirty", "worst", "poor", "slow", "terrible",
+    "bad", "dirty", "worst", "poor", "slow", "terrible","not clean", "unfriendly","not friendly", "unhelpful", "unprofessional", "disgusting",
     "awful", "noisy", "hate", "broken", "disappointed",
     "uncomfortable", "rude"
   ];
@@ -53,7 +53,7 @@ function ManageReviews() {
   return (
     <div className="manage-reviews">
       <h1>Manage Reviews</h1>
-      <p>Add, edit, or delete guest reviews – AI detects sentiment automatically.</p>
+      <p>Add, edit, or delete guest reviews </p>
 
       <form
         onSubmit={async (e) => {
