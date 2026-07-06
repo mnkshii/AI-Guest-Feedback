@@ -27,7 +27,7 @@ export function ThemeProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
-  // Listen for system theme changes (only if user hasn't manually set)
+  // Listen for system theme changes and update theme if no preference is set
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = (e) => {

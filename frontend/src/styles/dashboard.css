@@ -1,6 +1,4 @@
-/* ==========================================
-   DASHBOARD - FIXED SENTIMENT DISPLAY
-========================================== */
+/*DASHBOARD*/
 
 .dashboard-container {
   width: 100%;
@@ -216,7 +214,7 @@
   background: rgba(37, 99, 235, 0.03);
 }
 
-/* ===== FIXED: Sentiment Styles - HORIZONTAL ===== */
+
 .reviews-table .sentiment-positive,
 .reviews-table .sentiment-neutral,
 .reviews-table .sentiment-negative {
@@ -284,9 +282,7 @@
   font-weight: 500;
 }
 
-/* ==========================================
-   RESPONSIVE
-========================================== */
+/* MOBILE RESPONSIVE*/
 
 @media (max-width: 1024px) {
   .reviews-table {
@@ -329,10 +325,21 @@
   .reviews-table td {
     padding: 8px 10px;
   }
-
+  .reviews-table th:nth-child(1),
+  .reviews-table td:nth-child(1) {
+    width: 15%;
+  }
+.reviews-table th:nth-child(2),
+  .reviews-table td:nth-child(2) {
+    width: 23%;
+  }
+  .reviews-table th:nth-child(3),
+  .reviews-table td:nth-child(3) {
+    width: 20%;
+  }
   .reviews-table th:nth-child(4),
   .reviews-table td:nth-child(4) {
-    width: 30%;
+    width: 33%;
   }
 
   .reviews-table th:nth-child(5),
@@ -393,12 +400,12 @@
 
   .reviews-table th:nth-child(2),
   .reviews-table td:nth-child(2) {
-    width: 12%;
+    width: 10%;
   }
 
   .reviews-table th:nth-child(3),
   .reviews-table td:nth-child(3) {
-    width: 10%;
+    width: 18%;
   }
 
   .reviews-table th:nth-child(4),

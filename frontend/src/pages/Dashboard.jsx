@@ -71,7 +71,7 @@ const Dashboard = () => {
   const neuPct = ((neutral / total) * 100).toFixed(0);
   const negPct = ((negative / total) * 100).toFixed(0);
 
-  // FIXED: Horizontal sentiment display with icon + text
+ 
   const getSentimentDisplay = (sentiment) => {
     if (sentiment === 'positive') {
       return <span className="sentiment-positive"><Smile size={16} /> Positive</span>;

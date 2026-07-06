@@ -20,9 +20,6 @@ body {
   min-height: 100vh;
 }
 
-/* ==========================================
-   FLOATING BUBBLES – Subtle & Elegant
-========================================== */
 
 .bubbles {
   position: fixed;
@@ -40,84 +37,89 @@ body {
   display: block;
   border-radius: 50%;
   animation: floatBubble linear infinite;
-  opacity: 0.5;
 }
 
 .bubbles span:nth-child(1) {
-  width: 380px;
-  height: 380px;
-  left: -120px;
-  top: -60px;
+  width: 450px;
+  height: 450px;
+  left: -150px;
+  top: -80px;
   animation-duration: 25s;
-  background: radial-gradient(circle, var(--bubble-primary), transparent 70%);
-  opacity: 0.5;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.20), transparent 70%);
+  opacity: 0.7;
 }
 
 .bubbles span:nth-child(2) {
-  width: 280px;
-  height: 280px;
-  right: -80px;
-  top: 8%;
+  width: 320px;
+  height: 320px;
+  right: -100px;
+  top: 10%;
   animation-duration: 20s;
-  background: radial-gradient(circle, var(--bubble-secondary), transparent 70%);
-  opacity: 0.4;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 70%);
+  opacity: 0.6;
 }
 
 .bubbles span:nth-child(3) {
-  width: 330px;
-  height: 330px;
+  width: 380px;
+  height: 380px;
   left: 20%;
-  bottom: -100px;
+  bottom: -120px;
   animation-duration: 28s;
-  background: radial-gradient(circle, var(--bubble-tertiary), transparent 70%);
-  opacity: 0.45;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 70%);
+  opacity: 0.65;
 }
 
 .bubbles span:nth-child(4) {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   right: 15%;
   bottom: 25%;
   animation-duration: 18s;
-  background: radial-gradient(circle, var(--bubble-primary), transparent 70%);
-  opacity: 0.3;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15), transparent 70%);
+  opacity: 0.5;
 }
 
 .bubbles span:nth-child(5) {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   left: 55%;
   top: 30%;
   animation-duration: 15s;
-  background: radial-gradient(circle, var(--bubble-secondary), transparent 70%);
-  opacity: 0.35;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12), transparent 70%);
+  opacity: 0.5;
 }
 
 @keyframes floatBubble {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-60px) scale(1.08); }
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-70px) scale(1.1);
+  }
 }
 
-/* ==========================================
-   COMMON STYLES
-========================================== */
-
-section {
-  position: relative;
-  z-index: 1;
+[data-theme="dark"] .bubbles span:nth-child(1) {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.30), transparent 70%);
+  opacity: 0.8;
+}
+[data-theme="dark"] .bubbles span:nth-child(2) {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.25), transparent 70%);
+  opacity: 0.7;
+}
+[data-theme="dark"] .bubbles span:nth-child(3) {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.22), transparent 70%);
+  opacity: 0.75;
+}
+[data-theme="dark"] .bubbles span:nth-child(4) {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.20), transparent 70%);
+  opacity: 0.6;
+}
+[data-theme="dark"] .bubbles span:nth-child(5) {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.18), transparent 70%);
+  opacity: 0.6;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -136,6 +138,18 @@ button {
   background: var(--gradient-hover);
 }
 
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+section, main, .navbar, .sidebar, .footer, 
+.manage-reviews, .dashboard-container, .hero, 
+.features, .stats, .testimonials, .cta,
+.login-container, .about-container, .page-container {
+  position: relative;
+  z-index: 1;
+}
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -153,7 +167,7 @@ button {
 }
 
 .btn-primary {
-  background: var(--gradient);
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   color: white;
   box-shadow: 0 8px 32px rgba(37, 99, 235, 0.30);
 }
@@ -164,56 +178,35 @@ button {
 }
 
 .btn-outline {
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  border: 1px solid rgba(37, 99, 235, 0.10);
 }
 
 .btn-outline:hover {
-  border-color: var(--primary);
+  border-color: #2563eb;
   background: rgba(37, 99, 235, 0.05);
 }
 
 .btn-glow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 40px;
-  border-radius: 14px;
-  background: var(--gradient);
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   color: white;
-  font-weight: 600;
-  font-size: 1.05rem;
-  transition: all 0.3s ease;
   box-shadow: 0 8px 32px rgba(37, 99, 235, 0.30);
   border: none;
   cursor: pointer;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 40px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
 }
 
 .btn-glow:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 48px rgba(37, 99, 235, 0.45);
-}
-
-/* Container */
-.container {
-  width: min(1300px, 92%);
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* Dark theme refinements */
-[data-theme="dark"] .btn-outline {
-  background: rgba(30, 41, 59, 0.85);
-  color: var(--text);
-  border-color: rgba(96, 165, 250, 0.15);
-}
-
-[data-theme="dark"] .btn-outline:hover {
-  border-color: var(--primary);
 }

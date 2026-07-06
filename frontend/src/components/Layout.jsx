@@ -9,6 +9,7 @@ import {
   BrainCircuit,
   FileBarChart2,
   LogIn,
+  FileText, 
 } from "lucide-react";
 
 import Footer from "./Footer";
@@ -31,7 +32,6 @@ function Layout() {
 
   return (
     <>
-      {/* BUBBLES - FLOATING BACKGROUND */}
       <div className="bubbles">
         <span></span>
         <span></span>
@@ -57,10 +57,7 @@ function Layout() {
 
         <div className="nav-right">
           <ThemeToggle />
-          <button
-            className="hamburger"
-            onClick={() => setSidebarOpen(true)}
-          >
+          <button className="hamburger" onClick={() => setSidebarOpen(true)}>
             <Menu size={22} />
           </button>
         </div>
@@ -71,28 +68,25 @@ function Layout() {
           <X size={24} />
         </button>
         <NavLink to="/" onClick={closeSidebar}>
-          <Home size={18} />
-          Home
+          <Home size={18} /> Home
         </NavLink>
         <NavLink to="/about" onClick={closeSidebar}>
-          <Info size={18} />
-          About
+          <Info size={18} /> About
         </NavLink>
         <NavLink to="/dashboard" onClick={closeSidebar}>
-          <LayoutDashboard size={18} />
-          Dashboard
+          <LayoutDashboard size={18} /> Dashboard
         </NavLink>
         <NavLink to="/analysis" onClick={closeSidebar}>
-          <BrainCircuit size={18} />
-          AI Analysis
+          <BrainCircuit size={18} /> AI Analysis
         </NavLink>
         <NavLink to="/report" onClick={closeSidebar}>
-          <FileBarChart2 size={18} />
-          Reports
+          <FileBarChart2 size={18} /> Reports
+        </NavLink>
+        <NavLink to="/reviews" onClick={closeSidebar}>
+          <FileText size={18} /> Manage Reviews
         </NavLink>
         <NavLink to="/login" onClick={closeSidebar}>
-          <LogIn size={18} />
-          Login
+          <LogIn size={18} /> Login
         </NavLink>
       </aside>
 
