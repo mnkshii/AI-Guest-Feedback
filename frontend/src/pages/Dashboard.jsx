@@ -159,13 +159,13 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {reviews.map((review) => (
-                <tr key={review._id}>
-                  <td>{review.guest}</td>
-                  <td>{review.date}</td>
-                  <td>{"★".repeat(review.rating)}</td>
-                  <td>{review.comment}</td>
-                  <td>{getSentimentDisplay(review.sentiment)}</td>
-                </tr>
+               <tr key={review.id}>
+      <td data-label="Guest">{review.guest}</td>
+      <td data-label="Date">{review.date}</td>
+      <td data-label="Rating">{"★".repeat(review.rating)}</td>
+      <td data-label="Comment">{review.comment}</td>
+      <td data-label="Sentiment">{getSentimentDisplay(review.sentiment)}</td>
+    </tr>
               ))}
             </tbody>
           </table>

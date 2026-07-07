@@ -1,4 +1,6 @@
-/*DASHBOARD*/
+/* ==========================================
+   DASHBOARD – COMPLETE (Mobile like Manage Reviews)
+========================================== */
 
 .dashboard-container {
   width: 100%;
@@ -132,19 +134,11 @@
   white-space: nowrap;
 }
 
-.bar.positive {
-  background: #22c55e;
-}
+.bar.positive { background: #22c55e; }
+.bar.neutral  { background: #f59e0b; }
+.bar.negative { background: #ef4444; }
 
-.bar.neutral {
-  background: #f59e0b;
-}
-
-.bar.negative {
-  background: #ef4444;
-}
-
-/* Reviews Table */
+/* Reviews Table – Desktop */
 .reviews-table-container {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -176,31 +170,16 @@
   letter-spacing: 0.5px;
 }
 
-/* Column Widths */
 .reviews-table th:nth-child(1),
-.reviews-table td:nth-child(1) {
-  width: 15%;
-}
-
+.reviews-table td:nth-child(1) { width: 15%; }
 .reviews-table th:nth-child(2),
-.reviews-table td:nth-child(2) {
-  width: 15%;
-}
-
+.reviews-table td:nth-child(2) { width: 15%; }
 .reviews-table th:nth-child(3),
-.reviews-table td:nth-child(3) {
-  width: 12%;
-}
-
+.reviews-table td:nth-child(3) { width: 12%; }
 .reviews-table th:nth-child(4),
-.reviews-table td:nth-child(4) {
-  width: 38%;
-}
-
+.reviews-table td:nth-child(4) { width: 38%; }
 .reviews-table th:nth-child(5),
-.reviews-table td:nth-child(5) {
-  width: 20%;
-}
+.reviews-table td:nth-child(5) { width: 20%; }
 
 .reviews-table td {
   padding: 12px 14px;
@@ -214,25 +193,16 @@
   background: rgba(37, 99, 235, 0.03);
 }
 
-
+/* Sentiment styles */
 .reviews-table .sentiment-positive,
 .reviews-table .sentiment-neutral,
 .reviews-table .sentiment-negative {
   font-weight: 600;
   white-space: nowrap;
 }
-
-.reviews-table .sentiment-positive {
-  color: #22c55e;
-}
-
-.reviews-table .sentiment-neutral {
-  color: #f59e0b;
-}
-
-.reviews-table .sentiment-negative {
-  color: #ef4444;
-}
+.reviews-table .sentiment-positive { color: #22c55e; }
+.reviews-table .sentiment-neutral  { color: #f59e0b; }
+.reviews-table .sentiment-negative { color: #ef4444; }
 
 .reviews-table .sentiment-positive svg,
 .reviews-table .sentiment-neutral svg,
@@ -244,7 +214,7 @@
   height: 16px;
 }
 
-/* Loading */
+/* Loading & Error */
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -252,190 +222,154 @@
   gap: 16px;
   padding: 80px 0;
 }
-
 .loading-spinner .spin {
   animation: spin 1s linear infinite;
   color: var(--primary);
 }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
+.center { display: flex; justify-content: center; align-items: center; min-height: 60vh; }
 
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-}
-
-/* Error */
 .login-error {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 14px 20px;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.15);
   border-radius: 14px;
   color: #ef4444;
   font-weight: 500;
 }
 
-/* MOBILE RESPONSIVE*/
-
-@media (max-width: 1024px) {
-  .reviews-table {
-    font-size: 0.85rem;
-  }
-
-  .reviews-table th,
-  .reviews-table td {
-    padding: 10px 12px;
-  }
-}
+/* ==========================================
+   MOBILE – COMPACT STACKED CARDS (like Manage Reviews)
+========================================== */
 
 @media (max-width: 768px) {
-  .dashboard-header h1 {
-    font-size: 2rem;
-  }
+  .dashboard-container { padding: 20px 12px 60px; }
+  .dashboard-header h1 { font-size: 1.8rem; justify-content: center; text-align: center; }
+  .dashboard-header p { font-size: 0.95rem; text-align: center; }
 
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
+  .stat-card { padding: 14px 10px; }
+  .stat-card h2 { font-size: 1.4rem; }
+  .stat-card p { font-size: 0.75rem; }
+  .stat-card svg { width: 22px; height: 22px; }
 
-  .stat-card {
-    padding: 16px 12px;
+  .dashboard-card { padding: 16px; border-radius: 16px; }
+  .dashboard-card h3 { font-size: 1rem; }
+
+  .sentiment-bar { height: 28px; max-width: 100%; }
+  .bar { font-size: 0.65rem; min-width: 28px; }
+
+  /* === STACK TABLE ROWS AS COMPACT CARDS === */
+  .reviews-table-container {
+    overflow: visible !important;
+    margin: 0;
+    padding: 0;
   }
-
-  .stat-card h2 {
-    font-size: 1.5rem;
-  }
-
-  .dashboard-card {
-    padding: 16px;
-  }
-
   .reviews-table {
-    font-size: 0.8rem;
+    display: block !important;
+    width: 100% !important;
+    min-width: unset !important;
+    font-size: 0.85rem;
+  }
+  .reviews-table thead { display: none !important; }
+  .reviews-table tbody { display: block !important; width: 100%; }
+
+  .reviews-table tr {
+    display: block !important;
+    width: 100%;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px !important;
+    box-shadow: var(--shadow);
   }
 
-  .reviews-table th,
   .reviews-table td {
-    padding: 8px 10px;
-  }
-  .reviews-table th:nth-child(1),
-  .reviews-table td:nth-child(1) {
-    width: 15%;
-  }
-.reviews-table th:nth-child(2),
-  .reviews-table td:nth-child(2) {
-    width: 23%;
-  }
-  .reviews-table th:nth-child(3),
-  .reviews-table td:nth-child(3) {
-    width: 20%;
-  }
-  .reviews-table th:nth-child(4),
-  .reviews-table td:nth-child(4) {
-    width: 33%;
-  }
-
-  .reviews-table th:nth-child(5),
-  .reviews-table td:nth-child(5) {
-    width: 20%;
-  }
-
-  .sentiment-bar {
-    height: 30px;
-    max-width: 100%;
-  }
-
-  .bar {
-    font-size: 0.7rem;
-    min-width: 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .dashboard-container {
-    padding: 20px 12px 60px;
-  }
-
-  .dashboard-header h1 {
-    font-size: 1.6rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 4px 0 !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    white-space: normal !important;
+    width: 100% !important;
+    text-align: left !important;
     gap: 8px;
   }
+  .reviews-table td:last-child { border-bottom: none !important; }
 
-  .stat-card {
-    padding: 12px 8px;
+  /* Labels on LEFT, values on RIGHT (compact) */
+  .reviews-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--text-light);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    min-width: 60px;
   }
 
-  .stat-card h2 {
-    font-size: 1.3rem;
+  .reviews-table td > * {
+    text-align: left !important;
+    flex: 1;
   }
 
-  .dashboard-card {
-    padding: 12px;
-  }
-
-  .reviews-table {
+  /* Sentiment badge – compact */
+  .reviews-table .sentiment-positive,
+  .reviews-table .sentiment-neutral,
+  .reviews-table .sentiment-negative {
     font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .reviews-table .sentiment-positive svg,
+  .reviews-table .sentiment-neutral svg,
+  .reviews-table .sentiment-negative svg {
+    width: 14px;
+    height: 14px;
   }
 
-  .reviews-table th,
-  .reviews-table td {
-    padding: 6px 8px;
-  }
-
-  .reviews-table th:nth-child(1),
-  .reviews-table td:nth-child(1) {
-    width: 12%;
-  }
-
-  .reviews-table th:nth-child(2),
-  .reviews-table td:nth-child(2) {
-    width: 10%;
-  }
-
-  .reviews-table th:nth-child(3),
+  /* Rating stars – compact */
   .reviews-table td:nth-child(3) {
-    width: 18%;
-  }
-
-  .reviews-table th:nth-child(4),
-  .reviews-table td:nth-child(4) {
-    width: 35%;
-  }
-
-  .reviews-table th:nth-child(5),
-  .reviews-table td:nth-child(5) {
-    width: 31%;
-  }
-
-  .sentiment-bar {
-    height: 26px;
-  }
-
-  .bar {
-    font-size: 0.65rem;
-    min-width: 24px;
+    font-size: 1rem;
+    letter-spacing: 0px;
   }
 }
 
 @media (max-width: 480px) {
-  .reviews-table th,
-  .reviews-table td {
-    padding: 4px 6px;
-    font-size: 0.7rem;
-  }
+  .dashboard-container { padding: 16px 8px 40px; }
+  .dashboard-header h1 { font-size: 1.4rem; gap: 8px; }
+  .dashboard-header p { font-size: 0.85rem; }
 
-  .reviews-table {
-    font-size: 0.7rem;
-  }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card { padding: 10px 8px; border-radius: 14px; }
+  .stat-card h2 { font-size: 1.2rem; }
+  .stat-card p { font-size: 0.65rem; }
+  .stat-card svg { width: 18px; height: 18px; }
+
+  .dashboard-card { padding: 12px; border-radius: 14px; }
+  .dashboard-card h3 { font-size: 0.9rem; }
+
+  .sentiment-bar { height: 24px; }
+  .bar { font-size: 0.55rem; min-width: 20px; }
+
+  .reviews-table tr { padding: 10px !important; margin-bottom: 10px !important; }
+  .reviews-table td { padding: 3px 0 !important; font-size: 0.75rem; gap: 6px; }
+  .reviews-table td::before { font-size: 0.6rem; min-width: 50px; }
+  .reviews-table .sentiment-positive,
+  .reviews-table .sentiment-neutral,
+  .reviews-table .sentiment-negative { font-size: 0.65rem; }
+  .reviews-table .sentiment-positive svg,
+  .reviews-table .sentiment-neutral svg,
+  .reviews-table .sentiment-negative svg { width: 12px; height: 12px; }
 }
