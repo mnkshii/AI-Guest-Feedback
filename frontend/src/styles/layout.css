@@ -264,7 +264,7 @@ main {
     border-radius: 18px;
   }
   .logo h1 {
-    font-size: 1rem;
+    font-size: 1.25rem;
   }
   .sidebar {
     width: 280px;
@@ -279,7 +279,7 @@ main {
 }
 .logo h1 {
   text-decoration: none !important;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
 }
 
 .btn-primary {
