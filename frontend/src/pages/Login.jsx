@@ -83,7 +83,6 @@ if (isLoggedIn) {
       <div className="login-card">
 
         <h2>Welcome Back </h2>
-
         <p>
           Login to access your AI Guest Feedback Dashboard.
         </p>
@@ -97,7 +96,7 @@ if (isLoggedIn) {
         {/* Google OAuth Button */}
 <div style={{ marginBottom: "20px" }}>
   <a
-    href="https://ai-guest-feedback.onrender.com"
+    href="https://ai-guest-feedback.onrender.com/api/auth/google"
     className="btn google-btn"
     style={{
       display: "flex",
