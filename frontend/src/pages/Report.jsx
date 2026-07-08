@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const Report = () => {
-  // Mock data for demonstration
+  // Mock data for demonstration.
   const [timeframe, setTimeframe] = useState('weekly');
   const stats = {
     total: 245,

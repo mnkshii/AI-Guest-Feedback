@@ -9,3 +9,88 @@
 @import "./styles/report.css";
 @import "./styles/footer.css";
 @import "./styles/manageReviews.css";
+/* Always show hamburger, hide nav links */
+.hamburger {
+  display: flex !important;  /* Override display:none */
+}
+
+.nav-links {
+  display: none !important;  /* Hide nav links on all screens */
+}
+
+/* Ensure sidebar is hidden by default */
+.sidebar {
+  right: -340px !important;
+  left: auto !important;     /* Remove any left positioning */
+}
+
+.sidebar.open {
+  right: 0 !important;
+}
+
+/* Clean up user section positioning */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* ✅ Space between icon and email */
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  background: rgba(99, 102, 241, 0.06); /* subtle highlight */
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.sidebar-user svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin-top: 12px;
+  width: 100%;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 14px;
+  color: #ef4444;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.sidebar-logout:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+}
+
+.sidebar-logout:active {
+  transform: scale(0.97);
+}
+
+/* Dark mode adjustment */
+[data-theme="dark"] .sidebar-logout {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+[data-theme="dark"] .sidebar-logout:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
+}

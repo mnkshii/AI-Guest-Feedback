@@ -8,8 +8,16 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
+  // Check if user is already logged in
+  const token = localStorage.getItem("token");
+  const storedEmail = localStorage.getItem("email");
+  const isLoggedIn = !!token;
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("email");
+  navigate("/login");
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
@@ -19,15 +27,56 @@ function Login() {
       return;
     }
 
-    // Temporary login until backend authentication is ready
-    if (email === "demo@example.com" && password === "password") {
-      alert("Login Successful!");
-      navigate("/dashboard");
-    } else {
-      setError("Invalid credentials.");
-    }
-  };
+   try {
+  const response = await fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  });
 
+  const data = await response.json();
+
+  if (!response.ok) {
+    setError(data.message || "Login failed.");
+    return;
+  }
+
+  // Save JWT
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("email", email);
+  alert("Login Successful!");
+
+  navigate("/dashboard");
+
+} catch (error) {
+  setError("Server error. Please try again.");
+}
+  };
+// If already logged in, show this instead
+if (isLoggedIn) {
+  return (
+    <section className="login-container">
+      <div className="login-card">
+        <h2>Welcome Back 👋</h2>
+        <p>You are already logged in as:</p>
+        <p><strong>{storedEmail}</strong></p>
+        <div style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center" }}>
+          <button className="btn btn-primary" onClick={() => navigate("/dashboard")}>
+            Go to Dashboard
+          </button>
+          <button className="btn btn-secondary" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
   return (
     <section className="login-container">
 
@@ -45,7 +94,50 @@ function Login() {
             {error}
           </div>
         )}
+        {/* Google OAuth Button */}
+<div style={{ marginBottom: "20px" }}>
+  <a
+    href="http://localhost:5000/api/auth/google"
+    className="btn google-btn"
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "10px",
+      width: "100%",
+      padding: "12px",
+      borderRadius: "12px",
+      background: "#ffffff",
+      color: "#333",
+      border: "1px solid #ddd",
+      textDecoration: "none",
+      fontWeight: "600",
+      transition: "all 0.3s ease",
+    }}
+    onMouseEnter={(e) => {
+      e.target.style.background = "#f5f5f5";
+      e.target.style.borderColor = "#bbb";
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.background = "#ffffff";
+      e.target.style.borderColor = "#ddd";
+    }}
+  >
+    <img
+      src="https://www.google.com/favicon.ico"
+      alt="Google"
+      style={{ width: "20px", height: "20px" }}
+    />
+    Sign in with Google
+  </a>
+</div>
 
+{/* Divider */}
+<div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+  <hr style={{ flex: 1, border: "none", borderTop: "1px solid var(--border)" }} />
+  <span style={{ color: "var(--text-light)", fontSize: "0.85rem" }}>OR</span>
+  <hr style={{ flex: 1, border: "none", borderTop: "1px solid var(--border)" }} />
+</div>
         <form onSubmit={handleSubmit}>
 
           <div className="input-group">
@@ -57,7 +149,7 @@ function Login() {
 
             <input
               type="email"
-              placeholder="demo@example.com"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -87,30 +179,20 @@ function Login() {
             <LogIn size={18} />
             &nbsp;Sign In
           </button>
+          <p style={{ marginTop: "20px" }}>
+          Don't have an account?{" "}
+          <Link to="/register">Register</Link>
+          </p>
 
+          <p style={{ marginTop: "10px" }}>
+          <Link to="/forgot-password">
+           Forgot Password?
+          </Link>
+          </p>
         </form>
 
         <div className="login-footer">
-
-          <p>
-            Demo Login:
-          </p>
-
-          <p>
-            <strong>Email:</strong> demo@example.com
-          </p>
-
-          <p>
-            <strong>Password:</strong> password
-          </p>
-
-          <br />
-
-          <p>
-            Register and Forgot Password pages will be added
-            after backend authentication is completed.
-          </p>
-
+        <p>Sign in using your registered account.</p>
         </div>
 
       </div>

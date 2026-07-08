@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
@@ -9,26 +9,38 @@ import {
   BrainCircuit,
   FileBarChart2,
   LogIn,
-  FileText, 
+  FileText,
+  LogOut,
+  User,
 } from "lucide-react";
 
 import Footer from "./Footer";
 import ThemeToggle from "./ThemeToggle";
 
 function Layout() {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const token = localStorage.getItem("token");
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const closeSidebar = () => setSidebarOpen(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    navigate("/login");
+    closeSidebar();
+  };
 
   return (
     <>
@@ -40,20 +52,11 @@ function Layout() {
         <span></span>
       </div>
 
+      {/* Navbar - Only Logo, ThemeToggle, and Hamburger */}
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <NavLink to="/" className="logo">
           <h1>AI Guest Feedback</h1>
         </NavLink>
-
-        <div className="nav-links">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/dashboard">Dashboard</NavLink>
-          <NavLink to="/analysis">AI Analysis</NavLink>
-          <NavLink to="/report">Reports</NavLink>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/reviews">Manage Reviews</NavLink>
-        </div>
 
         <div className="nav-right">
           <ThemeToggle />
@@ -63,10 +66,15 @@ function Layout() {
         </div>
       </nav>
 
+      {/* Backdrop */}
+      <div className={`backdrop ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
+
+      {/* Sidebar - All navigation + Auth goes here */}
       <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={closeSidebar}>
           <X size={24} />
         </button>
+
         <NavLink to="/" onClick={closeSidebar}>
           <Home size={18} /> Home
         </NavLink>
@@ -85,12 +93,29 @@ function Layout() {
         <NavLink to="/reviews" onClick={closeSidebar}>
           <FileText size={18} /> Manage Reviews
         </NavLink>
-        <NavLink to="/login" onClick={closeSidebar}>
-          <LogIn size={18} /> Login
-        </NavLink>
-      </aside>
 
-      <div className={`backdrop ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
+        {/* Auth links in sidebar */}
+        {!token ? (
+          <>
+            <NavLink to="/login" onClick={closeSidebar}>
+              <LogIn size={18} /> Login
+            </NavLink>
+            <NavLink to="/register" onClick={closeSidebar}>
+              <LogIn size={18} /> Register
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <div className="sidebar-user">
+              <User size={18 } />
+              {email}
+            </div>
+            <button onClick={handleLogout} className="sidebar-logout">
+              <LogOut size={18} /> Logout
+            </button>
+          </>
+        )}
+      </aside>
 
       <main>
         <Outlet />
