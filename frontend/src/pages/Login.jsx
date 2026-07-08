@@ -28,7 +28,7 @@ function Login() {
     }
 
    try {
-  const response = await fetch("http://localhost:5000/api/auth/login", {
+  const response = await fetch("https://ai-guest-feedback.onrender.com/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -97,7 +97,7 @@ if (isLoggedIn) {
         {/* Google OAuth Button */}
 <div style={{ marginBottom: "20px" }}>
   <a
-    href="http://localhost:5000/api/auth/google"
+    href="https://ai-guest-feedback.onrender.com"
     className="btn google-btn"
     style={{
       display: "flex",
