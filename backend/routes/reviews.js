@@ -1,12 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const controller = require('../controllers/reviewController');
 
-router.get('/', controller.getReviews);
-router.get('/stats', controller.getStats);
-router.get('/:id', controller.getReview);
-router.post('/', controller.createReview);
-router.put('/:id', controller.updateReview);
-router.delete('/:id', controller.deleteReview);
+const controller = require("../controllers/reviewController");
+const verifyToken = require("../middleware/authMiddleware");
+
+// Protected Routes
+router.get("/", verifyToken, controller.getReviews);
+router.get("/stats", verifyToken, controller.getStats);
+router.get("/:id", verifyToken, controller.getReview);
+
+router.post("/", verifyToken, controller.createReview);
+
+router.put("/:id", verifyToken, controller.updateReview);
+
+router.delete("/:id", verifyToken, controller.deleteReview);
 
 module.exports = router;
