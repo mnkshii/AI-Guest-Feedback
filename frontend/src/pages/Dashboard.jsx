@@ -21,9 +21,19 @@ const Dashboard = () => {
   const fetchDashboard = async () => {
     try {
       const API = "https://ai-guest-feedback.onrender.com";
+      const token = localStorage.getItem("token");
 
-      const statsRes = await fetch(`${API}/api/reviews/stats`);
-      const reviewsRes = await fetch(`${API}/api/reviews`);
+      const statsRes = await fetch(`${API}/api/reviews/stats`, {
+       headers: {
+      "Authorization": `Bearer ${token}`
+      }
+      });
+      const reviewsRes = await fetch(`${API}/api/reviews`, {
+      headers: {
+      "Authorization": `Bearer ${token}`
+      }
+      });
+      
 
       if (!statsRes.ok || !reviewsRes.ok) {
         throw new Error("Failed to fetch data");
