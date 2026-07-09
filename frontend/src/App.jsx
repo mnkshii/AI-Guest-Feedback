@@ -13,10 +13,12 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthSuccess from "./pages/AuthSuccess";
+import ScrollToTop from "./components/ScrollToTop";
 function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+      <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -31,6 +33,7 @@ function App() {
             <Route path="/auth-success" element={<AuthSuccess />} />
           </Route>
         </Routes>
+        
       </BrowserRouter>
     </ThemeProvider>
   );
