@@ -1,10 +1,15 @@
 # AI Guest Feedback Analyzer
 
-A full-stack web application that helps hotels analyze guest feedback using sentiment analysis. The application allows users to manage guest reviews, view analytics, and store data permanently using MongoDB Atlas.
+A full-stack MERN application that helps hotel management analyze guest reviews, manage feedback, and securely authenticate users using JWT and Google OAuth.
 
 ---
 ## Features
-
+- Dashboard with review statistics
+- Guest Review Management (Create, Read, Update, Delete)
+- Search and filter reviews
+- AI-ready sentiment analysis module
+- Responsive and modern user interface
+- Light and Dark Theme support
 - User Registration with bcrypt password hashing
 - Secure Login using JWT Authentication
 - Google OAuth Login
@@ -176,6 +181,15 @@ Render
 
 MongoDB Atlas
 
+---
+##  Future Enhancements
+
+- AI-powered sentiment analysis using Gemini API
+- Automatic management response generation
+- Email-based password reset
+- User profile management
+- Review analytics and charts
+- Admin role management
 ---
 
 ## Author
