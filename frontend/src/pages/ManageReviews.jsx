@@ -21,15 +21,19 @@ function ManageReviews() {
   const [editingId, setEditingId] = useState(null);
 
   const fetchReviews = async () => {
-    try {
-      const res = await fetch(API);
-      const data = await res.json();
-      setReviews(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(API, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    const data = await res.json();
+    setReviews(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -54,10 +58,14 @@ function ManageReviews() {
               const url = editingId ? `${API}/${editingId}` : API;
               const method = editingId ? "PUT" : "POST";
               const sentiment = detectSentiment(form.comment);
+              const token = localStorage.getItem("token");
               const res = await fetch(url, {
-                method,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...form, sentiment }),
+              method,
+              headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ ...form, sentiment }),
               });
               if (!res.ok) throw new Error("Failed");
               setForm({ guest: "", rating: 5, comment: "" });
@@ -143,7 +151,13 @@ function ManageReviews() {
                     <button
                       onClick={async () => {
                         if (!window.confirm("Delete this review?")) return;
-                        await fetch(`${API}/${review._id}`, { method: "DELETE" });
+                        const token = localStorage.getItem("token");
+                        await fetch(`${API}/${review._id}`, {
+                        method: "DELETE",
+                        headers: {
+                        "Authorization": `Bearer ${token}`
+                        }
+                        });
                         fetchReviews();
                       }}
                     >
