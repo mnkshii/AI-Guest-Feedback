@@ -3,19 +3,20 @@
 A full-stack web application that helps hotels analyze guest feedback using sentiment analysis. The application allows users to manage guest reviews, view analytics, and store data permanently using MongoDB Atlas.
 
 ---
-
 ## Features
 
-- Dashboard with review statistics
-- View all guest reviews
-- Create new reviews
-- Update existing reviews
-- Delete reviews
-- Sentiment analysis (Positive, Neutral, Negative)
-- MongoDB Atlas database integration
-- Responsive React frontend
-- RESTful Express API
-- Cloud deployment using Vercel and Render
+- User Registration with bcrypt password hashing
+- Secure Login using JWT Authentication
+- Google OAuth Login
+- Protected API Routes
+- Protected Frontend Routes
+- Logout Functionality
+- Forgot Password Page (UI)
+- Review Management (CRUD)
+- Dashboard Analytics
+- Rate Limiting
+- Input Validation
+- Responsive UI
 
 ---
 
@@ -34,7 +35,16 @@ A full-stack web application that helps hotels analyze guest feedback using sent
 
 ### Database
 - MongoDB Atlas
+  
+### Authentication
+- JWT (jsonwebtoken)
+- bcrypt
+- Google OAuth (Passport.js)
 
+### Security
+- express-rate-limit
+- express-validator
+- CORS
 ### Deployment
 - Frontend: Vercel
 - Backend: Render
@@ -114,6 +124,9 @@ Create a `.env` file inside the `backend` folder.
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 CLIENT_URL=http://localhost:5173
+JWT_SECRET=your_secret_key
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
 ---
