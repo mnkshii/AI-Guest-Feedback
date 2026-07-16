@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 
-const API = "https://ai-guest-feedback.onrender.com/api/reviews";
-
+const API = "http://localhost:5000/api/reviews";
+const AI_API = "http://localhost:5000/api/ai/generate";
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
   const positiveWords = ["good","great","excellent","amazing","awesome","perfect","love","friendly","clean","nice","recommend","wonderful","happy","comfortable","best"];
@@ -19,7 +19,7 @@ function ManageReviews() {
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({ guest: "", rating: 5, comment: "" });
   const [editingId, setEditingId] = useState(null);
-
+  const [aiLoading, setAiLoading] = useState(false);
   const fetchReviews = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -38,7 +38,36 @@ function ManageReviews() {
     fetchReviews();
   }, []);
 
+const generateAIResponses = async () => {
+  try {
+    setAiLoading(true);
 
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(AI_API, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "AI failed");
+    }
+
+    alert(`${data.count} AI responses generated successfully!`);
+
+    fetchReviews();
+
+  } catch (err) {
+    console.log(err);
+    alert("Failed to generate AI responses");
+  } finally {
+    setAiLoading(false);
+  }
+};
   const renderStars = (rating) => {
     return "★".repeat(rating);
   };
@@ -47,7 +76,16 @@ function ManageReviews() {
     <div className="manage-reviews">
       <div className="page-header">
         <h1>Manage Reviews</h1>
-        <p className="subtitle">Add, edit, or delete guest reviews – AI detects sentiment automatically.</p>
+        <p className="subtitle">Add, edit, or delete guest reviews.</p>
+        <button
+  className="ai-button"
+  onClick={generateAIResponses}
+  disabled={aiLoading}
+>
+  {aiLoading 
+    ? "Generating AI Responses..."
+    : "✨ Generate AI Responses"}
+</button>
       </div>
 
       <div className="form-card">
@@ -121,6 +159,8 @@ function ManageReviews() {
                 <th>Rating</th>
                 <th>Comment</th>
                 <th>Sentiment</th>
+                <th>AI Response</th>
+                <th>Priority</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -134,6 +174,17 @@ function ManageReviews() {
                   <td data-label="Comment">{review.comment}</td>
                   <td data-label="Sentiment" className={`sentiment-${review.sentiment}`}>
                     {review.sentiment}
+                  </td>
+                  <td data-label="AI Response">
+                    {review.aiResponse ? (
+                      <p>{review.aiResponse}</p>
+                    ) : (
+                      <span>Not Generated</span>
+                    )}
+                  </td>
+
+                  <td data-label="Priority">
+                    {review.priority || "Pending"}
                   </td>
                   <td data-label="Actions">
                     <button

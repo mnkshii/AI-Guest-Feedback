@@ -1,12 +1,13 @@
-const mongoose = require("mongoose");
 require('dotenv').config();
 const express = require('express');
+const mongoose = require("mongoose");
 const cors = require('cors');
 const session = require("express-session"); 
 const passport = require("passport"); 
 require("./config/passport");
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require("./routes/authRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
@@ -42,6 +43,7 @@ app.use(passport.session());
 
 app.use('/api/reviews', reviewRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/ai", aiRoutes);
 app.get('/ping', (req, res) => res.json({ message: 'pong' }));
 
 app.use((req, res) => {
