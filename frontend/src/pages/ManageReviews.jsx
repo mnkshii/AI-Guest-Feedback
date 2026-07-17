@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 
 const API = import.meta.env.VITE_API_URL + "/api/reviews";
-const AI_API = import.meta.env.VITE_API_URL + "/api/ai/analyze"; 
+const AI_API = import.meta.env.VITE_API_URL + "/api/ai/analyze";
+
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
   const positiveWords = ["good","great","excellent","amazing","awesome","perfect","love","friendly","clean","nice","recommend","wonderful","happy","comfortable","best"];
@@ -20,54 +21,114 @@ function ManageReviews() {
   const [form, setForm] = useState({ guest: "", rating: 5, comment: "" });
   const [editingId, setEditingId] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
+
   const fetchReviews = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const res = await fetch(API, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    });
-    const data = await res.json();
-    setReviews(data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(API, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      setReviews(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
   }, []);
 
-const generateAIResponses = async () => {
-  try {
-    setAiLoading(true);
+  // 🔥 UPDATED: Generate AI Responses for ALL reviews
+  const generateAIResponses = async () => {
+    try {
+      setAiLoading(true);
+      const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem("token");
+      // 1. Fetch all reviews
+      const res = await fetch(API, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      const allReviews = await res.json();
 
-    const res = await fetch(AI_API, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`
+      if (!res.ok) {
+        throw new Error(allReviews.message || "Failed to fetch reviews");
       }
-    });
 
-    const data = await res.json();
+      // 2. Filter reviews that need AI response
+      const reviewsToProcess = allReviews.filter(r => !r.aiResponse);
 
-    if (!res.ok) {
-      throw new Error(data.message || "AI failed");
+      if (reviewsToProcess.length === 0) {
+        alert("✅ All reviews already have AI responses!");
+        setAiLoading(false);
+        return;
+      }
+
+      let successCount = 0;
+      let failCount = 0;
+
+      // 3. Loop through each review and generate AI response
+      for (const review of reviewsToProcess) {
+        try {
+          const aiRes = await fetch(AI_API, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ 
+              review: review.comment  // 👈 Sending the review text
+            })
+          });
+
+          const aiData = await aiRes.json();
+
+          if (aiRes.ok && aiData.success) {
+            // 4. Update the review with AI response
+            const updateRes = await fetch(`${API}/${review._id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ 
+                aiResponse: aiData.analysis.response
+              })
+            });
+
+            if (updateRes.ok) {
+              successCount++;
+            } else {
+              failCount++;
+            }
+          } else {
+            failCount++;
+            console.error(`Failed for review ${review._id}:`, aiData);
+          }
+        } catch (err) {
+          failCount++;
+          console.error(`Error for review ${review._id}:`, err);
+        }
+      }
+
+      // 5. Show result
+      alert(`✅ AI Responses Generated!\n\nSuccess: ${successCount}\nFailed: ${failCount}\nTotal Processed: ${reviewsToProcess.length}`);
+
+      // 6. Refresh the reviews list
+      fetchReviews();
+
+    } catch (err) {
+      console.error("AI generation failed:", err);
+      alert("❌ Failed to generate AI responses. Check console for details.");
+    } finally {
+      setAiLoading(false);
     }
+  };
 
-    alert(`${data.count} AI responses generated successfully!`);
-
-    fetchReviews();
-
-  } catch (err) {
-    console.log(err);
-    alert("Failed to generate AI responses");
-  } finally {
-    setAiLoading(false);
-  }
-};
   const renderStars = (rating) => {
     return "★".repeat(rating);
   };
@@ -78,14 +139,14 @@ const generateAIResponses = async () => {
         <h1>Manage Reviews</h1>
         <p className="subtitle">Add, edit, or delete guest reviews.</p>
         <button
-  className="ai-button"
-  onClick={generateAIResponses}
-  disabled={aiLoading}
->
-  {aiLoading 
-    ? "Generating AI Responses..."
-    : "✨ Generate AI Responses"}
-</button>
+          className="ai-button"
+          onClick={generateAIResponses}
+          disabled={aiLoading}
+        >
+          {aiLoading 
+            ? "⏳ Generating AI Responses..."
+            : "✨ Generate AI Responses"}
+        </button>
       </div>
 
       <div className="form-card">
@@ -98,12 +159,12 @@ const generateAIResponses = async () => {
               const sentiment = detectSentiment(form.comment);
               const token = localStorage.getItem("token");
               const res = await fetch(url, {
-              method,
-              headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-              },
-              body: JSON.stringify({ ...form, sentiment }),
+                method,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ ...form, sentiment }),
               });
               if (!res.ok) throw new Error("Failed");
               setForm({ guest: "", rating: 5, comment: "" });
@@ -182,7 +243,6 @@ const generateAIResponses = async () => {
                       <span>Not Generated</span>
                     )}
                   </td>
-
                   <td data-label="Priority">
                     {review.priority || "Pending"}
                   </td>
@@ -204,10 +264,10 @@ const generateAIResponses = async () => {
                         if (!window.confirm("Delete this review?")) return;
                         const token = localStorage.getItem("token");
                         await fetch(`${API}/${review._id}`, {
-                        method: "DELETE",
-                        headers: {
-                        "Authorization": `Bearer ${token}`
-                        }
+                          method: "DELETE",
+                          headers: {
+                            "Authorization": `Bearer ${token}`
+                          }
                         });
                         fetchReviews();
                       }}
