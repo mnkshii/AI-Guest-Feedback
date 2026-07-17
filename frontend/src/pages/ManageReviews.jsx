@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 
-const API = import.meta.env.VITE_API_URL + "/api/reviews";
-const AI_API = import.meta.env.VITE_API_URL + "/api/ai/analyze";
+const API = "https://ai-guest-feedback.onrender.com/api/reviews";
+const AI_API ="https://ai-guest-feedback.onrender.com/api/ai/analyze";
 
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
@@ -41,13 +41,13 @@ function ManageReviews() {
     fetchReviews();
   }, []);
 
-  // 🔥 UPDATED: Generate AI Responses for ALL reviews
+
   const generateAIResponses = async () => {
     try {
       setAiLoading(true);
       const token = localStorage.getItem("token");
 
-      // 1. Fetch all reviews
+      
       const res = await fetch(API, {
         headers: {
           "Authorization": `Bearer ${token}`
@@ -59,7 +59,6 @@ function ManageReviews() {
         throw new Error(allReviews.message || "Failed to fetch reviews");
       }
 
-      // 2. Filter reviews that need AI response
       const reviewsToProcess = allReviews.filter(r => !r.aiResponse);
 
       if (reviewsToProcess.length === 0) {
@@ -71,7 +70,6 @@ function ManageReviews() {
       let successCount = 0;
       let failCount = 0;
 
-      // 3. Loop through each review and generate AI response
       for (const review of reviewsToProcess) {
         try {
           const aiRes = await fetch(AI_API, {
@@ -81,14 +79,14 @@ function ManageReviews() {
               "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({ 
-              review: review.comment  // 👈 Sending the review text
+              review: review.comment  
             })
           });
 
           const aiData = await aiRes.json();
 
           if (aiRes.ok && aiData.success) {
-            // 4. Update the review with AI response
+          
             const updateRes = await fetch(`${API}/${review._id}`, {
               method: "PUT",
               headers: {
@@ -115,10 +113,10 @@ function ManageReviews() {
         }
       }
 
-      // 5. Show result
+  
       alert(`✅ AI Responses Generated!\n\nSuccess: ${successCount}\nFailed: ${failCount}\nTotal Processed: ${reviewsToProcess.length}`);
 
-      // 6. Refresh the reviews list
+     
       fetchReviews();
 
     } catch (err) {
