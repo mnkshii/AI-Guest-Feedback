@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 
-const API = "http://localhost:5000/api/reviews";
-const AI_API = "http://localhost:5000/api/ai/generate";
+const API = import.meta.env.VITE_API_URL + "/api/reviews";
+const AI_API = import.meta.env.VITE_API_URL + "/api/ai/analyze"; 
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
   const positiveWords = ["good","great","excellent","amazing","awesome","perfect","love","friendly","clean","nice","recommend","wonderful","happy","comfortable","best"];

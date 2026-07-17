@@ -1,20 +1,15 @@
 const OpenAI = require("openai");
 
-
 const client = new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1"
 });
 
+const analyzeReview = async (req, res) => {
+    try {
+        const { review } = req.body;
 
-exports.analyzeReview = async (req,res)=>{
-
-    try{
-
-        const {review} = req.body;
-
-
- const prompt = `
+        const prompt = `
 You are an AI hotel feedback analyzer.
 
 Analyze this guest review:
@@ -22,7 +17,6 @@ Analyze this guest review:
 "${review}"
 
 Return ONLY JSON in this format:
-
 {
  "sentiment":"",
  "keyPoints":"",
@@ -30,43 +24,32 @@ Return ONLY JSON in this format:
 }
 
 Do not add markdown or explanations.
-`;
-
+        `;
 
         const response = await client.chat.completions.create({
-
-            model:"openai/gpt-4o-mini",
-
-            messages:[
+            model: "openai/gpt-4o-mini",
+            messages: [
                 {
-                    role:"user",
-                    content:prompt
+                    role: "user",
+                    content: prompt
                 }
             ]
-
         });
 
-        const result = JSON.parse(
-        response.choices[0].message.content
-        );
-
+        const result = JSON.parse(response.choices[0].message.content);
 
         res.json({
-            success:true,
-            analysis:result
+            success: true,
+            analysis: result
         });
 
-
-    }
-    catch(error){
-
+    } catch (error) {
         console.log(error);
-
         res.status(500).json({
-            success:false,
-            message:"AI service failed"
+            success: false,
+            message: "AI service failed"
         });
-
     }
-
 };
+
+module.exports = { analyzeReview };

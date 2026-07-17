@@ -6,8 +6,6 @@ const AIAnalysis = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // ---------- PERSISTENCE ----------
-  // Load saved data when component mounts
   useEffect(() => {
     const savedReview = localStorage.getItem('savedReview');
     const savedResult = localStorage.getItem('savedResult');
@@ -21,12 +19,11 @@ const AIAnalysis = () => {
     }
   }, []);
 
-  // Save review to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('savedReview', review);
   }, [review]);
 
-  // Save result to localStorage whenever it changes
+ 
   useEffect(() => {
     if (result) {
       localStorage.setItem('savedResult', JSON.stringify(result));
@@ -35,7 +32,7 @@ const AIAnalysis = () => {
     }
   }, [result]);
 
-  // Auto-dismiss error after 5 seconds
+  
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => setError(null), 5000);
@@ -43,7 +40,7 @@ const AIAnalysis = () => {
     }
   }, [error]);
 
-  // ---------- MAIN ANALYZE FUNCTION ----------
+  
   const handleAnalyze = async () => {
     if (!review.trim()) {
       setError('Please paste a guest review first.');
@@ -55,7 +52,7 @@ const AIAnalysis = () => {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/ai/analyze', {
+      const response = await fetch('https://ai-guest-feedback.onrender.com/api/ai/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,9 +67,8 @@ const AIAnalysis = () => {
       }
 
       const aiResult = data.analysis;
-      console.log('AI Result:', aiResult); // debug – you can remove later
-
-      // ----- Normalize sentiment -----
+      console.log('AI Result:', aiResult); 
+    
       let raw = aiResult.sentiment.toLowerCase();
       let normalized;
       if (['positive', 'good', 'excellent'].includes(raw)) {
@@ -80,17 +76,17 @@ const AIAnalysis = () => {
       } else if (['negative', 'bad', 'poor'].includes(raw)) {
         normalized = 'negative';
       } else {
-        // 'mixed', 'neutral', or anything else → neutral
+        
         normalized = 'neutral';
       }
 
-      // ----- Compute score -----
+     
       let score = '3.0';
       if (normalized === 'positive') score = '4.8';
       else if (normalized === 'neutral') score = '3.5';
       else if (normalized === 'negative') score = '2.0';
 
-      // ----- Handle keyPoints (string or array) -----
+    
       let themes = [];
       if (Array.isArray(aiResult.keyPoints)) {
         themes = aiResult.keyPoints.map(item => item.trim());
@@ -100,7 +96,7 @@ const AIAnalysis = () => {
         themes = ['No key points extracted'];
       }
 
-      // ----- Set result -----
+      
       setResult({
         sentiment: normalized,
         score: score,
@@ -115,13 +111,13 @@ const AIAnalysis = () => {
     }
   };
 
-  // ---------- NEW ANALYSIS (clear result) ----------
+  
   const handleNewAnalysis = () => {
     setResult(null);
     localStorage.removeItem('savedResult');
   };
 
-  // ---------- RENDER ----------
+ 
   return (
     <div className="page-container">
       <div className="page-header">
