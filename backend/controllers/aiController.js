@@ -9,6 +9,13 @@ const analyzeReview = async (req, res) => {
     try {
         const { review } = req.body;
 
+        if (!review) {
+            return res.status(400).json({
+                success: false,
+                message: "Review text is required"
+            });
+        }
+
         const prompt = `
 You are an AI hotel feedback analyzer.
 
@@ -36,6 +43,7 @@ Do not add markdown or explanations.
             ]
         });
 
+        
         const result = JSON.parse(response.choices[0].message.content);
 
         res.json({
@@ -44,10 +52,19 @@ Do not add markdown or explanations.
         });
 
     } catch (error) {
-        console.log(error);
+        console.error("AI Error:", error.message);
+        
+        
+        let fallbackResult = {
+            sentiment: "Neutral",
+            keyPoints: "Unable to analyze review",
+            response: "We appreciate your feedback and will review your comments."
+        };
+
         res.status(500).json({
             success: false,
-            message: "AI service failed"
+            message: "AI service failed",
+            analysis: fallbackResult
         });
     }
 };
