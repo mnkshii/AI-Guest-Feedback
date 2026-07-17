@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 
+
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
-const AI_API ="https://ai-guest-feedback.onrender.com/api/ai/analyze";
+const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze"; 
 
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
@@ -41,13 +42,12 @@ function ManageReviews() {
     fetchReviews();
   }, []);
 
-
   const generateAIResponses = async () => {
     try {
       setAiLoading(true);
       const token = localStorage.getItem("token");
 
-      
+      // Fetch all reviews
       const res = await fetch(API, {
         headers: {
           "Authorization": `Bearer ${token}`
@@ -72,6 +72,8 @@ function ManageReviews() {
 
       for (const review of reviewsToProcess) {
         try {
+          console.log(`🤖 Processing review ${review._id}:`, review.comment);
+
           const aiRes = await fetch(AI_API, {
             method: "POST",
             headers: {
@@ -79,14 +81,16 @@ function ManageReviews() {
               "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({ 
-              review: review.comment  
+              review: review.comment 
             })
           });
 
+          console.log(`📊 Status: ${aiRes.status} ${aiRes.statusText}`);
+
           const aiData = await aiRes.json();
+          console.log(`📝 AI Response:`, aiData);
 
           if (aiRes.ok && aiData.success) {
-          
             const updateRes = await fetch(`${API}/${review._id}`, {
               method: "PUT",
               headers: {
@@ -100,23 +104,22 @@ function ManageReviews() {
 
             if (updateRes.ok) {
               successCount++;
+              console.log(`✅ Success for ${review._id}`);
             } else {
               failCount++;
+              console.error(`❌ Update failed for ${review._id}`);
             }
           } else {
             failCount++;
-            console.error(`Failed for review ${review._id}:`, aiData);
+            console.error(`❌ AI failed for ${review._id}:`, aiData);
           }
         } catch (err) {
           failCount++;
-          console.error(`Error for review ${review._id}:`, err);
+          console.error(`❌ Error for ${review._id}:`, err);
         }
       }
 
-  
       alert(`✅ AI Responses Generated!\n\nSuccess: ${successCount}\nFailed: ${failCount}\nTotal Processed: ${reviewsToProcess.length}`);
-
-     
       fetchReviews();
 
     } catch (err) {
