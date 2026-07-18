@@ -6,12 +6,10 @@
 
 ### AI Guest Feedback Analyzer is a full-stack web application that uses OpenRouter AI to analyze hotel guest reviews, identify sentiment and key themes, and generate professional management responses in real time.
 
+
 ##  Live Demo
 
-> **Frontend:** [https://ai-guest-feedback.vercel.app](https://ai-guest-feedback.vercel.app)  
-> **Backend API:** [https://ai-guest-feedback.onrender.com/ping](https://ai-guest-feedback.onrender.com/ping)
-
-
+> **Application:** [https://ai-guest-feedback.vercel.app](https://ai-guest-feedback.vercel.app)  
 
 ---
 ##  Key Features
