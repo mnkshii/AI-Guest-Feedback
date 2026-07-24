@@ -24,7 +24,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Existing sentiment
+    
     sentiment: {
       type: String,
       enum: ["positive", "neutral", "negative"],
@@ -32,7 +32,7 @@ const reviewSchema = new mongoose.Schema(
     },
 
 
-    // AI Generated Fields
+ 
 
     summary: {
       type: String,
@@ -55,7 +55,10 @@ const reviewSchema = new mongoose.Schema(
       enum: ["Pending", "Generated"],
       default: "Pending",
     },
-
+    user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    },
   },
   {
     timestamps: true,

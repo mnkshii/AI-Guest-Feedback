@@ -3,7 +3,9 @@ const Review = require("../models/Review");
 // GET all reviews
 exports.getReviews = async (req, res) => {
   try {
-    const reviews = await Review.find().sort({ createdAt: -1 });
+    const reviews = await Review.find({
+    user: req.user.id,
+    }).sort({ createdAt: -1 });
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -13,7 +15,10 @@ exports.getReviews = async (req, res) => {
 // GET one review
 exports.getReview = async (req, res) => {
   try {
-    const review = await Review.findById(req.params.id);
+    const review = await Review.findOne({
+  _id: req.params.id,
+  user: req.user.id,
+});
 
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
@@ -28,19 +33,26 @@ exports.getReview = async (req, res) => {
 // CREATE review
 exports.createReview = async (req, res) => {
   try {
+
+    console.log("CREATE REVIEW API HIT");
+    console.log("Headers:", req.headers.authorization);
+    console.log("Logged in user:", req.user);
+
     const review = new Review({
       guest: req.body.guest,
-      date:
-        req.body.date ||
-        new Date().toISOString().split("T")[0],
+      date: req.body.date || new Date().toISOString().split("T")[0],
       rating: req.body.rating,
       comment: req.body.comment,
       sentiment: req.body.sentiment || "neutral",
+      user: req.user.id,
     });
 
     const saved = await review.save();
 
+    console.log("Saved review:", saved);
+
     res.status(201).json(saved);
+
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -49,13 +61,16 @@ exports.createReview = async (req, res) => {
 // UPDATE review
 exports.updateReview = async (req, res) => {
   try {
-    const updated = await Review.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-      }
-    );
+    const updated = await Review.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    user: req.user.id,
+  },
+  req.body,
+  {
+    new: true,
+  }
+);
 
     if (!updated) {
       return res.status(404).json({
@@ -72,10 +87,10 @@ exports.updateReview = async (req, res) => {
 // DELETE review
 exports.deleteReview = async (req, res) => {
   try {
-    const deleted = await Review.findByIdAndDelete(
-      req.params.id
-    );
-
+   const deleted = await Review.findOneAndDelete({
+  _id: req.params.id,
+  user: req.user.id,
+});
     if (!deleted) {
       return res.status(404).json({
         message: "Review not found",
@@ -93,7 +108,9 @@ exports.deleteReview = async (req, res) => {
 // STATS
 exports.getStats = async (req, res) => {
   try {
-    const all = await Review.find();
+    const all = await Review.find({
+  user: req.user.id,
+});
 
     const total = all.length;
 

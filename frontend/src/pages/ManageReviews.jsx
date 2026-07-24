@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
-
+import { useLocation } from "react-router-dom";
 
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
 const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze"; 
@@ -18,29 +18,46 @@ function detectSentiment(comment) {
 }
 
 function ManageReviews() {
+  const location = useLocation(); 
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({ guest: "", rating: 5, comment: "" });
   const [editingId, setEditingId] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
 
-  const fetchReviews = async () => {
+    const fetchReviews = async () => {
+    const token = localStorage.getItem("token");
+    
+    
+    if (!token) {
+      setReviews([]);
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(API, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       });
+
+     
+      if (!res.ok) {
+        setReviews([]);
+        return;
+      }
+
       const data = await res.json();
-      setReviews(data);
+     
+      setReviews(Array.isArray(data) ? data : []);
     } catch (err) {
       console.log(err);
+      setReviews([]);
     }
   };
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [location.pathname]);
 
   const generateAIResponses = async () => {
     try {
