@@ -14,11 +14,13 @@ import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthSuccess from "./pages/AuthSuccess";
 import ScrollToTop from "./components/ScrollToTop";
+import ErrorBoundary from "./components/ErrorBoundary";
 function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
       <ScrollToTop />
+      <ErrorBoundary>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -33,7 +35,7 @@ function App() {
             <Route path="/auth-success" element={<AuthSuccess />} />
           </Route>
         </Routes>
-        
+        </ErrorBoundary>
       </BrowserRouter>
     </ThemeProvider>
   );

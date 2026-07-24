@@ -1,11 +1,18 @@
-/**
- * Toast Component
- */
+import { useEffect } from "react";
+import "../styles/toast.css";
 
-export default function Toast() {
+function Toast({ message, type, onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 3000); // auto-close after 3s
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   return (
-    <div>
-      Success!
+    <div className={`toast ${type}`}>
+      <span>{message}</span>
+      <button onClick={onClose}>✕</button>
     </div>
   );
 }
+
+export default Toast;
