@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 import { useLocation } from "react-router-dom";
-import Toast from "../components/ui/toast";
+import Toast from "../components/ui/Toast";
 
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
 const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze";
