@@ -39,12 +39,6 @@ const reviewSchema = new mongoose.Schema(
       default: "",
     },
 
-    priority: {
-      type: String,
-      enum: ["Low", "Medium", "High"],
-      default: "Low",
-    },
-
     aiResponse: {
       type: String,
       default: "",

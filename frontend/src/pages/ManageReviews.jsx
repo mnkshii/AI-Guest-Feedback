@@ -232,7 +232,6 @@ function ManageReviews() {
                 <th>Comment</th>
                 <th>Sentiment</th>
                 <th>AI Response</th>
-                <th>Priority</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -257,7 +256,6 @@ function ManageReviews() {
                     <td data-label="AI Response">
                       {review.aiResponse ? <p>{review.aiResponse}</p> : <span>Not Generated</span>}
                     </td>
-                    <td data-label="Priority">{review.priority || "Pending"}</td>
                     <td data-label="Actions">
                       <button
                         onClick={() => {

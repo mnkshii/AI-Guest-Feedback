@@ -164,17 +164,28 @@ const Dashboard = () => {
                 <th>Date</th>
                 <th>Rating</th>
                 <th>Comment</th>
+                <th>AI Response</th>
                 <th>Sentiment</th>
+
               </tr>
             </thead>
             <tbody>
               {reviews.map((review) => (
-               <tr key={review.id}>
+               <tr key={review._id}>
       <td data-label="Guest">{review.guest}</td>
       <td data-label="Date">{review.date}</td>
       <td data-label="Rating">{"★".repeat(review.rating)}</td>
       <td data-label="Comment">{review.comment}</td>
+      <td
+        data-label="AI Response"
+        title={review.aiResponse}
+      >
+        {review.aiResponse
+          ? review.aiResponse.slice(0, 70) + "..."
+          : "Not Generated"}
+</td>
       <td data-label="Sentiment">{getSentimentDisplay(review.sentiment)}</td>
+
     </tr>
               ))}
             </tbody>
