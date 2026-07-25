@@ -30,6 +30,7 @@
   text-align: center;
 }
 
+/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -79,7 +80,12 @@
   font-size: 0.85rem;
 }
 
+.stat-card.positive-card { border-top: 4px solid #22c55e; }
+.stat-card.neutral-card { border-top: 4px solid #f59e0b; }
+.stat-card.negative-card { border-top: 4px solid #ef4444; }
+.stat-card.rating-card { border-top: 4px solid #8b5cf6; }
 
+/* Dashboard Card */
 .dashboard-card {
   max-width: 1100px;
   margin: 0 auto 28px;
@@ -105,6 +111,7 @@
   flex-wrap: wrap;
 }
 
+/* Sentiment Bar */
 .sentiment-bar {
   display: flex;
   height: 36px;
@@ -133,10 +140,9 @@
 .bar.neutral  { background: #f59e0b; }
 .bar.negative { background: #ef4444; }
 
-
-
+/* Reviews Table – Desktop */
 .reviews-table-container {
-  overflow-x: hidden !important;  
+  overflow-x: hidden !important;
   overflow-y: visible;
   border-radius: 14px;
   margin: 8px auto 0;
@@ -178,6 +184,7 @@
   background: rgba(37, 99, 235, 0.03);
 }
 
+/* Column widths */
 .reviews-table th:nth-child(1),
 .reviews-table td:nth-child(1) { width: 14%; }
 
@@ -188,33 +195,15 @@
 .reviews-table td:nth-child(3) { width: 12%; }
 
 .reviews-table th:nth-child(4),
-.reviews-table td:nth-child(4) { width: 32%; }
+.reviews-table td:nth-child(4) { width: 28%; }
 
 .reviews-table th:nth-child(5),
-.reviews-table td:nth-child(5) { width: 20%; }
+.reviews-table td:nth-child(5) { width: 22%; }
 
 .reviews-table th:nth-child(6),
-.reviews-table td:nth-child(6) { width: 8%; }
+.reviews-table td:nth-child(6) { width: 10%; }
 
-
-
-.ai-response-text {
-  display: block;
-  word-wrap: break-word;
-  font-size: 0.85rem;
-  color: var(--text);  
-  max-height: 100px;
-  overflow-y: auto;
-  line-height: 1.5;
-}
-
-.not-generated {
-  color: var(--text-light);  
-  font-style: italic;
-}
-
-
-
+/* Sentiment styles */
 .reviews-table .sentiment-positive,
 .reviews-table .sentiment-neutral,
 .reviews-table .sentiment-negative {
@@ -237,6 +226,61 @@
 }
 
 
+.ai-response-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.ai-response-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.ai-response-text.collapsed {
+  max-height: 4.8em;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.ai-response-text.expanded {
+  max-height: none;
+  display: block;
+}
+
+.read-more-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  align-self: flex-start;
+  transition: color 0.2s;
+}
+
+.read-more-btn:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.not-generated {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+
 
 .loading-spinner {
   display: flex;
@@ -255,27 +299,45 @@
 
 .center { display: flex; justify-content: center; align-items: center; min-height: 60vh; }
 
-.login-error {
+.dashboard-error {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 14px 20px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.15);
-  border-radius: 14px;
+  gap: 12px;
   color: #ef4444;
-  font-weight: 500;
+}
+
+.dashboard-error button {
+  padding: 8px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dashboard-error button:hover {
+  background: #1d4ed8;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.empty-state p:first-child {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: var(--text);
 }
 
 
-
 @media (min-width: 769px) {
-  
   .reviews-table-container {
     overflow-x: hidden !important;
   }
 
-  
   .reviews-table td {
     word-wrap: break-word;
     word-break: break-word;
@@ -289,18 +351,21 @@
     white-space: normal;
   }
 
-  
   .reviews-table td:nth-child(5) {
-    max-width: 200px;
+    max-width: 220px;
+    min-width: 140px;
     word-wrap: break-word;
     white-space: normal;
   }
 
-  
   .reviews-table td:nth-child(1) {
     max-width: 120px;
     word-wrap: break-word;
     white-space: normal;
+  }
+
+  .ai-response-text {
+    font-size: 0.85rem;
   }
 }
 
@@ -327,7 +392,6 @@
   .sentiment-bar { height: 28px; max-width: 100%; }
   .bar { font-size: 0.65rem; min-width: 28px; }
 
- 
   .reviews-table-container {
     overflow: visible !important;
     margin: 0;
@@ -370,7 +434,6 @@
 
   .reviews-table td:last-child { border-bottom: none !important; }
 
-  
   .reviews-table td::before {
     content: attr(data-label);
     font-weight: 700;
@@ -387,7 +450,6 @@
     flex: 1;
   }
 
- 
   .reviews-table td[data-label="AI Response"] {
     flex-direction: column;
     align-items: flex-start;
@@ -406,17 +468,21 @@
   }
 
   .ai-response-text {
-    max-height: none;
-    max-width: 100%;
-    font-size: 0.85rem;
-    padding: 0.5rem;
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    width: 100%;
-    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
 
- 
+  .ai-response-text.collapsed {
+    max-height: 4.5em;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+  }
+
+  .read-more-btn {
+    font-size: 0.75rem;
+    padding: 2px 0;
+  }
+
   .reviews-table .sentiment-positive,
   .reviews-table .sentiment-neutral,
   .reviews-table .sentiment-negative {
@@ -432,7 +498,6 @@
     width: 14px;
     height: 14px;
   }
-
 
   .reviews-table td:nth-child(3) {
     font-size: 1rem;
@@ -462,6 +527,14 @@
   .reviews-table tr { padding: 10px !important; margin-bottom: 10px !important; }
   .reviews-table td { padding: 3px 0 !important; font-size: 0.75rem; gap: 6px; }
   .reviews-table td::before { font-size: 0.6rem; min-width: 50px; }
+
+  .ai-response-text {
+    font-size: 0.75rem;
+  }
+
+  .read-more-btn {
+    font-size: 0.7rem;
+  }
 
   .reviews-table .sentiment-positive,
   .reviews-table .sentiment-neutral,
