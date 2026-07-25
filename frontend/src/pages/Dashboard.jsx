@@ -213,8 +213,8 @@ const Dashboard = () => {
                   <tr key={review._id}>
                     <td data-label="Guest">{review.guest}</td>
                     <td data-label="Date">{formatDate(review.date)}</td>
-                    <td data-label="Rating" className="rating-stars">
-                      {renderStars(review.rating)}
+                    <td data-label="Rating" className="rating-cell">
+                    <span className="stars">{renderStars(review.rating)}</span>
                     </td>
                     <td data-label="Comment">{review.comment}</td>
                     <td data-label="AI Response">

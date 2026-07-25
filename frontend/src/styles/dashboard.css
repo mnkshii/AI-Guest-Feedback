@@ -74,6 +74,16 @@
   margin-bottom: 2px;
 }
 
+.rating-cell {
+  white-space: nowrap;
+}
+
+.stars {
+  display: inline-block;
+  color: #f59e0b;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
 .stat-card p {
   color: var(--text-light);
   font-weight: 500;
@@ -456,6 +466,13 @@
     width: 100%;
   }
 
+  .stars {
+    display: inline !important; /* Force inline */
+    white-space: nowrap;
+  }
+  .rating-cell {
+    white-space: nowrap !important;
+  }
   .reviews-table td[data-label="AI Response"]::before {
     content: "AI Response";
     font-weight: 700;
