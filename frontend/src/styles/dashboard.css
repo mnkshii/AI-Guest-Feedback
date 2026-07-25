@@ -373,3 +373,33 @@
   .reviews-table .sentiment-neutral svg,
   .reviews-table .sentiment-negative svg { width: 12px; height: 12px; }
 }
+
+
+.ai-response-text {
+  display: block;
+  word-wrap: break-word;
+  font-size: 0.85rem;
+  color: #1e293b;
+  max-height: 100px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.not-generated {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+
+@media screen and (max-width: 768px) {
+  .ai-response-text {
+    max-height: none;
+    max-width: 100%;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    background: #f1f5f9;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+}

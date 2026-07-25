@@ -176,14 +176,13 @@ const Dashboard = () => {
       <td data-label="Date">{review.date}</td>
       <td data-label="Rating">{"★".repeat(review.rating)}</td>
       <td data-label="Comment">{review.comment}</td>
-      <td
-        data-label="AI Response"
-        title={review.aiResponse}
-      >
-        {review.aiResponse
-          ? review.aiResponse.slice(0, 70) + "..."
-          : "Not Generated"}
-</td>
+      <td data-label="AI Response">
+      {review.aiResponse ? (
+        <span className="ai-response-text">{review.aiResponse}</span>
+      ) : (
+        <span className="not-generated">Not Generated</span>
+      )}
+    </td>
       <td data-label="Sentiment">{getSentimentDisplay(review.sentiment)}</td>
 
     </tr>
