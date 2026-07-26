@@ -688,6 +688,26 @@ html, body {
 }
 
 @media (max-width: 480px) {
+  /* === LAYOUT & SIZING FIXES (Cut off hatao) === */
+  .hero {
+    min-height: auto !important;
+    padding: 30px 16px 40px !important;
+  }
+
+  .stats, .features, .testimonials, .cta {
+    padding: 40px 16px 60px !important;
+  }
+
+  .home-page, .hero, .stats, .features, .testimonials, .cta {
+    overflow: visible !important;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* === TYPOGRAPHY & GRID (Aapke pehle wale styles) === */
   .hero-title {
     font-size: 2rem;
   }
@@ -743,9 +763,6 @@ html, body {
   }
   .stat-card h2 {
     font-size: 2rem;
-  }
-  .dashboard-card {
-    padding: 20px;
   }
   .features-grid .feature-card {
     padding: 28px 20px;
