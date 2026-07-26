@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="home-page">
+    <>
       <Hero />
 
       {/* Stats */}
@@ -121,7 +121,7 @@ function Home() {
           <Link to="/analysis" className="btn-glow">Start AI Analysis →</Link>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
