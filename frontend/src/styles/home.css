@@ -688,86 +688,169 @@ html, body {
 }
 
 @media (max-width: 480px) {
-  /* === LAYOUT & SIZING FIXES (Cut off hatao) === */
+ 
+  .home-page {
+    overflow: visible !important;
+    min-height: auto !important;
+    padding-bottom: 30px !important;
+  }
+
+
   .hero {
     min-height: auto !important;
-    padding: 30px 16px 40px !important;
-  }
-
-  .stats, .features, .testimonials, .cta {
-    padding: 40px 16px 60px !important;
-  }
-
-  .home-page, .hero, .stats, .features, .testimonials, .cta {
+    padding: 20px 16px 30px !important;
     overflow: visible !important;
   }
 
-  .dashboard-card {
-    padding: 20px;
-    margin-bottom: 20px;
+  .hero-title {
+    font-size: 1.8rem !important;
+    word-wrap: break-word !important;
   }
 
-  /* === TYPOGRAPHY & GRID (Aapke pehle wale styles) === */
-  .hero-title {
-    font-size: 2rem;
-  }
   .hero-description {
-    font-size: 0.95rem;
+    font-size: 0.9rem !important;
   }
+
   .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
   }
+
   .hero-buttons .btn,
   .hero-buttons a {
-    width: 100%;
-    max-width: 280px;
-    text-align: center;
+    width: 100% !important;
+    max-width: 280px !important;
+    text-align: center !important;
   }
+
   .hero-stats {
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+    gap: 15px !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
   }
+
   .hero-stat h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem !important;
   }
+
   .hero-stat p {
-    font-size: 0.8rem;
+    font-size: 0.75rem !important;
   }
+
+  
+  .dashboard-card {
+    padding: 16px !important;
+    margin-bottom: 20px !important;
+  }
+
   .rating-box {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: column !important;
+    text-align: center !important;
   }
+
+  .rating-score {
+    font-size: 2rem !important;
+  }
+
+  
+  .stats {
+    padding: 30px 16px 40px !important;
+    overflow: visible !important;
+  }
+
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
   }
-  .section-title h2 {
-    font-size: 1.6rem;
-  }
-  .section-title p {
-    font-size: 0.95rem;
-  }
-  .cta-box {
-    padding: 30px 20px;
-  }
-  .cta-box h2 {
-    font-size: 1.5rem;
-  }
-  .cta-box p {
-    font-size: 0.95rem;
-  }
+
   .stat-card {
-    padding: 24px 16px;
+    padding: 20px 16px !important;
   }
+
   .stat-card h2 {
-    font-size: 2rem;
+    font-size: 1.8rem !important;
   }
+
+  .stat-card p {
+    font-size: 0.8rem !important;
+  }
+
+  
+  .features {
+    padding: 30px 16px 40px !important;
+    overflow: visible !important;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
   .features-grid .feature-card {
-    padding: 28px 20px;
+    padding: 24px 18px !important;
   }
+
+  .features-grid .feature-card h3 {
+    font-size: 1.1rem !important;
+  }
+
+  .features-grid .feature-card p {
+    font-size: 0.85rem !important;
+  }
+
+  
+  .testimonials {
+    padding: 30px 16px 40px !important;
+    overflow: visible !important;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
   .testimonial-card {
-    padding: 24px 20px;
+    padding: 20px 16px !important;
+  }
+
+  .testimonial-card p {
+    font-size: 0.85rem !important;
+  }
+
+
+  .cta {
+    padding: 30px 16px 40px !important;
+    overflow: visible !important;
+  }
+
+  .cta-box {
+    padding: 24px 16px !important;
+  }
+
+  .cta-box h2 {
+    font-size: 1.3rem !important;
+  }
+
+  .cta-box p {
+    font-size: 0.85rem !important;
+  }
+
+  
+  .section-title {
+    margin-bottom: 30px !important;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .section-title p {
+    font-size: 0.9rem !important;
+  }
+
+ 
+  .home-page, .hero, .stats, .features, .testimonials, .cta {
+    overflow: visible !important;
   }
 }
