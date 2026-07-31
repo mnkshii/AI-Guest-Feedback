@@ -42,6 +42,12 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.json({
+    message: "AI Guest Feedback Analyzer API is running successfully."
+  });
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
 
