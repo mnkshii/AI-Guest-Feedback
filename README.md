@@ -6,10 +6,21 @@
 
 ### AI Guest Feedback Analyzer is a full-stack web application that uses OpenRouter AI to analyze hotel guest reviews, identify sentiment and key themes, and generate professional management responses in real time.
 
+## 🌐 Live Deployment
 
-##  Live Demo
+- **Frontend:** https://ai-guest-feedback.vercel.app
+- **Backend API:** https://ai-guest-feedback.onrender.com
 
-> **Application:** [https://ai-guest-feedback.vercel.app](https://ai-guest-feedback.vercel.app)  
+The application is publicly accessible and all major features, including authentication, CRUD operations, and AI-powered review analysis, are deployed and working in production.
+
+---
+
+## Known Limitations
+
+- The backend is hosted on Render's free tier, so it may take 30–60 seconds to respond after a period of inactivity while the service wakes up.
+- AI responses depend on the availability of the OpenRouter API.
+- Google OAuth requires an active internet connection and valid Google account.
+
 
 ---
 ##  Key Features
@@ -136,28 +147,37 @@ AI-Guest-Feedback/
 ├── PROMPTS.md
 └── README.md
 ```
----
 
+---
 ## Environment Variables
 
 Create a `.env` file inside the `backend` folder.
 
-```
+### Development
+
+```env
 PORT=5000
-
 MONGO_URI=your_mongodb_connection_string
-
 CLIENT_URL=http://localhost:5173
-
 JWT_SECRET=your_secret_key
-
 GOOGLE_CLIENT_ID=your_google_client_id
-
 GOOGLE_CLIENT_SECRET=your_google_client_secret
-
 OPENROUTER_API_KEY=your_open_router_key
 ```
+---
 
+### Production
+
+Set the following environment variables in the **Render Dashboard**:
+
+```env
+CLIENT_URL=https://ai-guest-feedback.vercel.app
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+OPENROUTER_API_KEY=your_open_router_key
+```
 ---
 
 ## Installation
@@ -200,6 +220,8 @@ npm run dev
 | Database | MongoDB Atlas |
 | AI Provider | OpenRouter |
 
+The frontend is deployed on **Vercel**, while the backend API is hosted on **Render**. Guest review data is stored in **MongoDB Atlas**, and AI-powered sentiment analysis and response generation are provided through the **OpenRouter API**.
+
 
 ---
 ## Future Enhancements
@@ -215,3 +237,5 @@ npm run dev
 ## Author
 
 **Meenakshi Pandey**
+
+GitHub Repository: https://github.com/mnkshii/AI-Guest-Feedback
