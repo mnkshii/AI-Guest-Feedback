@@ -374,14 +374,7 @@ function ManageReviews() {
         </div>
       </div>
 
-      {/* Toast component rendered at the end */}
-      {toast.show && (
-        <Toast
-          message={toast.message}
-          variant={toast.variant}   
-          onClose={() => setToast({ show: false, message: "", variant: "success" })}
-        />
-      )}
+      
       {/* Image Modal */}
 {selectedImage && (
   <div 
@@ -397,7 +390,10 @@ function ManageReviews() {
 
     <button
       className="close-image"
-      onClick={() => setSelectedImage(null)}
+     onClick={(e) => {
+  e.stopPropagation();
+  setSelectedImage(null);
+}}
     >
       ✕
     </button>

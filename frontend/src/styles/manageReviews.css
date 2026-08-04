@@ -481,3 +481,30 @@
   font-size: 32px !important;
   z-index: 9999999 !important;
 }
+/* Image modal close button fix */
+.image-modal .close-image {
+  position: fixed !important;
+  top: 30px !important;
+  right: 40px !important;
+
+  width: 50px !important;
+  height: 50px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: white !important;
+  color: black !important;
+
+  border-radius: 50% !important;
+  border: none !important;
+
+  font-size: 35px !important;
+  font-weight: 900 !important;
+
+  line-height: 1 !important;
+
+  cursor: pointer !important;
+  z-index: 999999 !important;
+}
