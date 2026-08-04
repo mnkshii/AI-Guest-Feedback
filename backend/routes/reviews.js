@@ -18,6 +18,8 @@ router.post(
   upload.array("images", 5),
   (req,res,next)=>{
     console.log("AFTER MULTER");
+    console.log("BODY:", req.body);
+    console.log("FILES:", req.files);
     next();
   },
   controller.createReview

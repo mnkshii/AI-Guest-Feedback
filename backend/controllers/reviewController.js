@@ -59,10 +59,14 @@ exports.createReview = async (req, res) => {
 
     res.status(201).json(saved);
 
-  } catch (err) {
-  console.error("CREATE REVIEW ERROR:", err);
-  res.status(400).json({ 
-    message: err.message 
+  } 
+catch (err) {
+  console.error("========== CREATE REVIEW ERROR ==========");
+  console.error(err);
+  console.error(err.stack);
+  
+  res.status(500).json({
+    message: err.message
   });
 }
 };
