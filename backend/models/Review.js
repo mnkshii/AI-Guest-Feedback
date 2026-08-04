@@ -24,6 +24,11 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
 
+    images: [
+    {
+      type: String,
+    },
+    ],
     
     sentiment: {
       type: String,
@@ -52,6 +57,7 @@ const reviewSchema = new mongoose.Schema(
     user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
     },
   },
   {

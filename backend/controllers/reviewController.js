@@ -37,15 +37,21 @@ exports.createReview = async (req, res) => {
     console.log("CREATE REVIEW API HIT");
     console.log("Headers:", req.headers.authorization);
     console.log("Logged in user:", req.user);
+    console.log("BODY:", req.body);
+    console.log("FILES:", req.files);
+    const imageUrls = req.files
+    ? req.files.map((file) => file.path)
+    : [];
 
     const review = new Review({
-      guest: req.body.guest,
-      date: req.body.date || new Date().toISOString().split("T")[0],
-      rating: req.body.rating,
-      comment: req.body.comment,
-      sentiment: req.body.sentiment || "neutral",
-      user: req.user.id,
-    });
+    guest: req.body.guest,
+    date: req.body.date || new Date().toISOString().split("T")[0],
+    rating: Number(req.body.rating),
+    comment: req.body.comment,
+    images: imageUrls,
+    sentiment: req.body.sentiment || "neutral",
+    user: req.user.id,
+  });
 
     const saved = await review.save();
 
@@ -54,8 +60,11 @@ exports.createReview = async (req, res) => {
     res.status(201).json(saved);
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  console.error("CREATE REVIEW ERROR:", err);
+  res.status(400).json({ 
+    message: err.message 
+  });
+}
 };
 
 // UPDATE review
@@ -80,6 +89,7 @@ exports.updateReview = async (req, res) => {
 
     res.json(updated);
   } catch (err) {
+    console.error("UPDATE REVIEW ERROR:", err);
     res.status(400).json({ message: err.message });
   }
 };

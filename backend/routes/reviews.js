@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const upload = require("../middleware/upload");
 const controller = require("../controllers/reviewController");
 const verifyToken = require("../middleware/authMiddleware");
 
@@ -8,8 +8,20 @@ const verifyToken = require("../middleware/authMiddleware");
 router.get("/", verifyToken, controller.getReviews);
 router.get("/stats", verifyToken, controller.getStats);
 router.get("/:id", verifyToken, controller.getReview);
-
-router.post("/", verifyToken, controller.createReview);
+router.post(
+  "/",
+  verifyToken,
+  (req,res,next)=>{
+    console.log("BEFORE MULTER");
+    next();
+  },
+  upload.array("images", 5),
+  (req,res,next)=>{
+    console.log("AFTER MULTER");
+    next();
+  },
+  controller.createReview
+);
 
 router.put("/:id", verifyToken, controller.updateReview);
 
