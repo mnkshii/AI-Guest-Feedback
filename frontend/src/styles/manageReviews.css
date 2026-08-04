@@ -430,7 +430,7 @@
 .clickable-image:hover {
   transform: scale(1.1);
 }
-/* ---------- IMAGE MODAL – Smooth & Aesthetic ---------- */
+
 .image-modal {
   position: fixed !important;
   top: 0;
@@ -466,7 +466,7 @@
   to   { transform: scale(1); opacity: 1; }
 }
 
-/* ---------- AESTHETIC CLOSE BUTTON (सिर्फ एक बार) ---------- */
+
 .image-modal .close-image {
   position: fixed !important;
   top: 28px !important;
@@ -490,7 +490,7 @@
   z-index: 9999999999 !important;
   line-height: 1 !important;
   padding: 0 !important;
-  /* ❌ कोई ::before नहीं — सिर्फ button का text use करें */
+  
 }
 
 /* Hover effect */

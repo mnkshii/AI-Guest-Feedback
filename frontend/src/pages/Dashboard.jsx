@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   PieChart,
   MessageSquare,
@@ -18,7 +19,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState({});
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const toggleExpand = (id) => {
     setExpanded(prev => ({
       ...prev,
@@ -52,6 +53,7 @@ const Dashboard = () => {
 
         const statsData = await statsRes.json();
         const reviewsData = await reviewsRes.json();
+        console.log("Reviews from API:", reviewsData);
 
         setStats(statsData);
         
@@ -205,6 +207,7 @@ const Dashboard = () => {
                   <th>Rating</th>
                   <th>Comment</th>
                   <th>AI Response</th>
+                  <th>Images</th>
                   <th>Sentiment</th>
                 </tr>
               </thead>
@@ -236,7 +239,24 @@ const Dashboard = () => {
                         <span className="not-generated">Not Generated</span>
                       )}
                     </td>
-                    <td data-label="Sentiment">{getSentimentDisplay(review.sentiment)}</td>
+                   <td data-label="Images">
+                    {review.images && review.images.length > 0 ? (
+                      <div className="image-preview-container">
+                        {review.images.map((img, index) => (
+                          <img
+                          key={index}
+                          src={img}
+                          alt="Review"
+                          className="review-image"
+                          onClick={() => setSelectedImage(img)}
+                        />
+                        ))}
+                      </div>
+                    ) : (
+                      <span>No Image</span>
+                    )}
+                  </td>
+                   <td data-label="Sentiment">{getSentimentDisplay(review.sentiment)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -244,6 +264,28 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+     {selectedImage && createPortal(
+  <div
+    className="image-modal"
+    onClick={() => setSelectedImage(null)}
+  >
+    <img
+      src={selectedImage}
+      alt="Large preview"
+      className="large-image"
+      onClick={(e) => e.stopPropagation()}
+    />
+
+    <button
+      className="close-image"
+      onClick={() => setSelectedImage(null)}
+    >
+      ✕
+    </button>
+  </div>,
+  document.body
+)}
+
     </section>
   );
 };
