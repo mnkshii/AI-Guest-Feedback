@@ -27,6 +27,7 @@ function ManageReviews() {
   const [previewImages, setPreviewImages] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   
   useEffect(() => {
@@ -313,14 +314,16 @@ function ManageReviews() {
 
                     {review.images && review.images.length > 0 && (
                       <div className="review-images">
-                        {review.images.map((img, index) => (
-                          <img
-                            key={index}
-                            src={img}
-                            alt="review"
-                            width="80"
-                          />
-                        ))}
+                       {review.images.map((img, index) => (
+                        <img
+                          key={index}
+                          src={img}
+                          alt="review"
+                          width="80"
+                          className="clickable-image"
+                          onClick={() => setSelectedImage(img)}
+                        />
+                      ))}
                       </div>
                     )}
                   </td>
@@ -379,7 +382,38 @@ function ManageReviews() {
           onClose={() => setToast({ show: false, message: "", variant: "success" })}
         />
       )}
+      {/* Image Modal */}
+{selectedImage && (
+  <div 
+    className="image-modal"
+    onClick={() => setSelectedImage(null)}
+  >
+    <img
+      src={selectedImage}
+      alt="Large preview"
+      className="large-image"
+      onClick={(e) => e.stopPropagation()}
+    />
+
+    <button
+      className="close-image"
+      onClick={() => setSelectedImage(null)}
+    >
+      ✕
+    </button>
+  </div>
+)}
+
+{/* Toast component rendered at the end */}
+{toast.show && (
+  <Toast
+    message={toast.message}
+    variant={toast.variant}
+    onClose={() => setToast({ show: false, message: "", variant: "success" })}
+  />
+)}
     </div>
+    
   );
 }
 
