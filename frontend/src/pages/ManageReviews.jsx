@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/manageReviews.css";
 import { useLocation } from "react-router-dom";
 import Toast from "../components/ui/Toast";
-
+import { createPortal } from "react-dom";
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
 const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze";
 
@@ -398,6 +398,13 @@ function ManageReviews() {
       ✕
     </button>
   </div>
+)}
+{selectedImage && createPortal(
+  <div className="image-modal" onClick={() => setSelectedImage(null)}>
+    <img src={selectedImage} alt="Large preview" className="large-image" onClick={(e) => e.stopPropagation()} />
+    <button className="close-image" onClick={() => setSelectedImage(null)}>✕</button>
+  </div>,
+  document.body
 )}
 
 {/* Toast component rendered at the end */}
