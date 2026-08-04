@@ -135,7 +135,11 @@ function ManageReviews() {
     return "★".repeat(rating);
   };
   const handleImageChange = (e) => {
+  console.log("INPUT FILES:", e.target.files);
+
   const files = Array.from(e.target.files);
+
+  console.log("ARRAY FILES:", files);
 
   if (files.length > 5) {
     setToast({
