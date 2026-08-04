@@ -197,7 +197,11 @@ function ManageReviews() {
               selectedImages.forEach((image) => {
                 formData.append("images", image);
               });
+              console.log("Selected Images:", selectedImages);
 
+              for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+              }
               const res = await fetch(url, {
                 method,
                 headers: {
