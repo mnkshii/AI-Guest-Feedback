@@ -23,6 +23,8 @@ function ManageReviews() {
   const [reviews, setReviews] = useState([]);
   const [toast, setToast] = useState({ show: false, message: "", variant: "success" });
   const [form, setForm] = useState({ guest: "", rating: 5, comment: "" });
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
 
@@ -132,6 +134,26 @@ function ManageReviews() {
   const renderStars = (rating) => {
     return "★".repeat(rating);
   };
+  const handleImageChange = (e) => {
+  const files = Array.from(e.target.files);
+
+  if (files.length > 5) {
+    setToast({
+      show: true,
+      message: "Maximum 5 images allowed.",
+      variant: "error"
+    });
+    return;
+  }
+
+  setSelectedImages(files);
+
+  const previews = files.map((file) =>
+    URL.createObjectURL(file)
+  );
+
+  setPreviewImages(previews);
+};
 
   return (
     <div className="manage-reviews">
@@ -165,13 +187,23 @@ function ManageReviews() {
               const method = editingId ? "PUT" : "POST";
               const sentiment = detectSentiment(form.comment);
               const token = localStorage.getItem("token");
+              const formData = new FormData();
+
+              formData.append("guest", form.guest);
+              formData.append("rating", form.rating);
+              formData.append("comment", form.comment);
+              formData.append("sentiment", sentiment);
+
+              selectedImages.forEach((image) => {
+                formData.append("images", image);
+              });
+
               const res = await fetch(url, {
                 method,
                 headers: {
-                  "Content-Type": "application/json",
                   "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ ...form, sentiment }),
+                body: formData,
               });
               if (!res.ok) {
                 throw new Error("Failed to save review");
@@ -182,6 +214,8 @@ function ManageReviews() {
                 variant: "success"
               });
               setForm({ guest: "", rating: 5, comment: "" });
+              setSelectedImages([]);
+              setPreviewImages([]);
               setEditingId(null);
               fetchReviews();
             } catch (err) {
@@ -213,6 +247,23 @@ function ManageReviews() {
             onChange={(e) => setForm({ ...form, comment: e.target.value })}
             required
           />
+          <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+            />
+
+            <div className="image-preview">
+              {previewImages.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt="preview"
+                  width="100"
+                />
+              ))}
+            </div>
           <button type="submit">
             {editingId ? "Update Review" : "Add Review"}
           </button>
@@ -249,7 +300,22 @@ function ManageReviews() {
                     <td data-label="Rating" className="rating-stars-cell">
                       {renderStars(review.rating)}
                     </td>
-                    <td data-label="Comment">{review.comment}</td>
+                    <td data-label="Comment">
+                    <p>{review.comment}</p>
+
+                    {review.images && review.images.length > 0 && (
+                      <div className="review-images">
+                        {review.images.map((img, index) => (
+                          <img
+                            key={index}
+                            src={img}
+                            alt="review"
+                            width="80"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </td>
                     <td data-label="Sentiment" className={`sentiment-${review.sentiment}`}>
                       {review.sentiment}
                     </td>
