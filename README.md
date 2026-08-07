@@ -92,8 +92,7 @@ This project uses **MongoDB Atlas** because guest reviews are document-based and
 
 ## Database Schema
 
-![Database Schema](images/Schema.png)
-
+![Database Schema](./frontend/src/assets/images/Schema.png)
 ---
 
 ## Review Schema
