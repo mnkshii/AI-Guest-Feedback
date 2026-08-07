@@ -52,7 +52,7 @@ function Layout() {
         <span></span>
       </div>
 
-      {/* Navbar - Only Logo, ThemeToggle, and Hamburger */}
+      {/* Navbar */}
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <NavLink to="/" className="logo">
           <h1>AI Guest Feedback</h1>
@@ -69,7 +69,7 @@ function Layout() {
       {/* Backdrop */}
       <div className={`backdrop ${sidebarOpen ? "show" : ""}`} onClick={closeSidebar} />
 
-      {/* Sidebar - All navigation + Auth goes here */}
+      {/* Sidebar  */}
       <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={closeSidebar}>
           <X size={24} />
@@ -94,7 +94,7 @@ function Layout() {
           <FileText size={18} /> Manage Reviews
         </NavLink>
 
-        {/* Auth links in sidebar */}
+      
         {!token ? (
           <>
             <NavLink to="/login" onClick={closeSidebar}>

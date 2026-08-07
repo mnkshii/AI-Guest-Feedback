@@ -7,7 +7,9 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "hotel-reviews",
     allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    resource_type: "image",
   },
 });
+
 
 module.exports = multer({ storage });

@@ -525,23 +525,22 @@ html, body {
   transform: translateX(4px);
 }
 
-.testimonial-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.testimonial-card {
-  padding: 32px 28px;
+.features-grid .feature-card {
+  padding: 40px 30px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 24px;
   text-align: left;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   box-shadow: var(--shadow);
   backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .testimonial-card:hover {
@@ -852,5 +851,135 @@ html, body {
  
   .home-page, .hero, .stats, .features, .testimonials, .cta {
     overflow: visible !important;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .hotel-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .hotel-image {
+    height: 160px;
+  }
+  .hotel-info {
+    padding: 14px 16px 18px;
+  }
+  .hotel-info h3 {
+    font-size: 1rem;
+  }
+  .hotel-desc {
+    font-size: 0.8rem;
+  }
+  .hotel-price {
+    font-size: 0.95rem;
+  }
+  .btn-view-hotel {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotel-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .hotel-image {
+    height: 200px;
+  }
+  .featured-hotels {
+    padding: 40px 16px;
+  }
+}
+
+
+.workflow {
+  padding: 80px 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.workflow-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 22px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.workflow-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(37, 99, 235, 0.20); 
+}
+
+
+.workflow-card svg {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 16px;
+  color: var(--primary); 
+}
+
+
+.workflow-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+
+.workflow-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+
+@media (max-width: 1024px) {
+  .workflow-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .workflow-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workflow {
+    padding: 30px 16px 40px !important;
+    overflow: visible !important;
+  }
+  .workflow-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .workflow-card {
+    min-height: auto !important;
+    padding: 20px 16px !important;
   }
 }

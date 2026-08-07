@@ -19,7 +19,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState({});
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const toggleExpand = (id) => {
     setExpanded(prev => ({
       ...prev,
@@ -71,7 +72,10 @@ const Dashboard = () => {
 
     fetchDashboard();
   }, []);
-
+const openGallery = (images, index) => {
+  setGalleryImages(images);
+  setCurrentIndex(index);
+};
   if (loading) {
     return (
       <div className="dashboard-container center">
@@ -243,12 +247,12 @@ const Dashboard = () => {
                     {review.images && review.images.length > 0 ? (
                       <div className="image-preview-container">
                         {review.images.map((img, index) => (
-                          <img
+                         <img
                           key={index}
                           src={img}
                           alt="Review"
                           className="review-image"
-                          onClick={() => setSelectedImage(img)}
+                          onClick={() => openGallery(review.images, index)}
                         />
                         ))}
                       </div>
@@ -264,28 +268,64 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-     {selectedImage && createPortal(
+   {galleryImages.length > 0 &&
+createPortal(
   <div
     className="image-modal"
-    onClick={() => setSelectedImage(null)}
+    onClick={() => setGalleryImages([])}
   >
-    <img
-      src={selectedImage}
-      alt="Large preview"
-      className="large-image"
-      onClick={(e) => e.stopPropagation()}
-    />
 
     <button
       className="close-image"
-      onClick={() => setSelectedImage(null)}
+      onClick={(e)=>{
+        e.stopPropagation();
+        setGalleryImages([]);
+      }}
     >
       ✕
     </button>
+
+
+    <button
+      className="prev-image"
+      onClick={(e)=>{
+        e.stopPropagation();
+
+        setCurrentIndex(
+          (currentIndex - 1 + galleryImages.length)
+          % galleryImages.length
+        );
+      }}
+    >
+      ❮
+    </button>
+
+
+    <img
+      src={galleryImages[currentIndex]}
+      className="large-image"
+      alt="Review"
+      onClick={(e)=>e.stopPropagation()}
+    />
+
+
+    <button
+      className="next-image"
+      onClick={(e)=>{
+        e.stopPropagation();
+
+        setCurrentIndex(
+          (currentIndex + 1)
+          % galleryImages.length
+        );
+      }}
+    >
+      ❯
+    </button>
+
   </div>,
   document.body
 )}
-
     </section>
   );
 };

@@ -1,18 +1,41 @@
 import { useEffect, useState } from "react";
-import "../styles/manageReviews.css";
 import { useLocation } from "react-router-dom";
-import Toast from "../components/ui/Toast";
 import { createPortal } from "react-dom";
+import Toast from "../components/ui/Toast";
+
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
 const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze";
 
+// =========================
+// SENTIMENT DETECTION
+// =========================
+
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
-  const positiveWords = ["good","great","excellent","amazing","awesome","perfect","love","friendly","clean","nice","recommend","wonderful","happy","comfortable","best"];
-  const negativeWords = ["bad","dirty","worst","poor","slow","terrible","awful","noisy","hate","broken","disappointed","uncomfortable","rude"];
-  let positiveScore = 0, negativeScore = 0;
-  positiveWords.forEach(word => { if (text.includes(word)) positiveScore++; });
-  negativeWords.forEach(word => { if (text.includes(word)) negativeScore++; });
+
+  const positiveWords = [
+    "good", "great", "excellent", "amazing", "awesome",
+    "perfect", "love", "friendly", "clean", "nice",
+    "recommend", "wonderful", "happy", "comfortable", "best",
+  ];
+
+  const negativeWords = [
+    "bad", "dirty", "worst", "poor", "slow", "terrible",
+    "awful", "noisy", "hate", "broken", "disappointed",
+    "uncomfortable", "rude",
+  ];
+
+  let positiveScore = 0;
+  let negativeScore = 0;
+
+  positiveWords.forEach((word) => {
+    if (text.includes(word)) positiveScore++;
+  });
+
+  negativeWords.forEach((word) => {
+    if (text.includes(word)) negativeScore++;
+  });
+
   if (positiveScore > negativeScore) return "positive";
   if (negativeScore > positiveScore) return "negative";
   return "neutral";
@@ -20,16 +43,30 @@ function detectSentiment(comment) {
 
 function ManageReviews() {
   const location = useLocation();
+
   const [reviews, setReviews] = useState([]);
-  const [toast, setToast] = useState({ show: false, message: "", variant: "success" });
-  const [form, setForm] = useState({ guest: "", rating: 5, comment: "" });
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    variant: "success",
+  });
+  const [form, setForm] = useState({
+    guest: "",
+    rating: 5,
+    comment: "",
+  });
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [editingId, setEditingId] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [savingReview, setSavingReview] = useState(false);
 
-  
+  // =========================
+  // TOAST
+  // =========================
+
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
@@ -39,15 +76,20 @@ function ManageReviews() {
     }
   }, [toast.show]);
 
+  // =========================
+  // FETCH REVIEWS
+  // =========================
+
   const fetchReviews = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setReviews([]);
       return;
     }
+
     try {
       const res = await fetch(API, {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
         setReviews([]);
@@ -56,55 +98,79 @@ function ManageReviews() {
       const data = await res.json();
       setReviews(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.log(err);
+      console.error("FETCH REVIEWS ERROR:", err);
       setReviews([]);
     }
+  };
+
+  const openGallery = (images, index) => {
+    setGalleryImages(images);
+    setCurrentIndex(index);
   };
 
   useEffect(() => {
     fetchReviews();
   }, [location.pathname]);
 
+  // =========================
+  // GENERATE AI RESPONSES
+  // =========================
+
   const generateAIResponses = async () => {
     try {
       setAiLoading(true);
       const token = localStorage.getItem("token");
+
       const res = await fetch(API, {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const allReviews = await res.json();
+
       if (!res.ok) {
         throw new Error(allReviews.message || "Failed to fetch reviews");
       }
-      const reviewsToProcess = allReviews.filter(r => !r.aiResponse);
+
+      const reviewsToProcess = allReviews.filter(
+        (review) => !review.aiResponse
+      );
+
       if (reviewsToProcess.length === 0) {
-        setToast({ show: true, message: "✅ All reviews already have AI responses!", variant: "success" });
-        setAiLoading(false);
+        setToast({
+          show: true,
+          message: "✅ All reviews already have AI responses!",
+          variant: "success",
+        });
         return;
       }
+
       let successCount = 0;
       let failCount = 0;
+
       for (const review of reviewsToProcess) {
         try {
-          console.log(`🤖 Processing review ${review._id}:`, review.comment);
           const aiRes = await fetch(AI_API, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ review: review.comment })
+            body: JSON.stringify({ review: review.comment }),
           });
+
           const aiData = await aiRes.json();
+
           if (aiRes.ok && aiData.success) {
             const updateRes = await fetch(`${API}/${review._id}`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
               },
-              body: JSON.stringify({ aiResponse: aiData.analysis.response })
+              body: JSON.stringify({
+                aiResponse: aiData.analysis.response,
+              }),
             });
+
             if (updateRes.ok) {
               successCount++;
             } else {
@@ -115,308 +181,581 @@ function ManageReviews() {
           }
         } catch (err) {
           failCount++;
-          console.error(err);
+          console.error("AI RESPONSE ERROR:", err);
         }
       }
+
       setToast({
         show: true,
         message: `✅ AI Responses Generated! Success: ${successCount}, Failed: ${failCount}`,
-        variant: "success"
+        variant: "success",
       });
+
       fetchReviews();
     } catch (err) {
-      console.error(err);
-      setToast({ show: true, message: "❌ Failed to generate AI responses. Check console.", variant: "error" });
+      console.error("AI GENERATION ERROR:", err);
+      setToast({
+        show: true,
+        message: "❌ Failed to generate AI responses.",
+        variant: "error",
+      });
     } finally {
       setAiLoading(false);
     }
   };
 
+  // =========================
+  // STARS
+  // =========================
+
   const renderStars = (rating) => {
     return "★".repeat(rating);
   };
+
+  // =========================
+  // IMAGE SELECTION
+  // =========================
+
   const handleImageChange = (e) => {
-  console.log("INPUT FILES:", e.target.files);
-
-  const files = Array.from(e.target.files);
-
-  console.log("ARRAY FILES:", files);
+  const files = Array.from(e.target.files || []);
 
   if (files.length > 5) {
     setToast({
       show: true,
       message: "Maximum 5 images allowed.",
-      variant: "error"
+      variant: "error",
     });
+
+    e.target.value = "";
     return;
   }
 
-  setSelectedImages(files);
+  setSelectedFiles(files);
 
   const previews = files.map((file) =>
     URL.createObjectURL(file)
   );
 
   setPreviewImages(previews);
+
+  console.log("Selected Files:", files);
 };
 
+  // =========================
+  // RESET FORM
+  // =========================
+
+  const resetForm = () => {
+    setForm({ guest: "", rating: 5, comment: "" });
+    setSelectedFiles([]);
+    setPreviewImages([]);
+    setEditingId(null);
+
+    const fileInput = document.querySelector(".review-file-input");
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
+  // =========================
+  // SUBMIT REVIEW
+  // =========================
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (savingReview) return;
+
+    if (form.guest.trim().length < 2) {
+      setToast({
+        show: true,
+        message: "Guest name must be at least 2 characters.",
+        variant: "error",
+      });
+      return;
+    }
+
+    if (form.comment.trim().length < 10) {
+      setToast({
+        show: true,
+        message: "Comment must be at least 10 characters.",
+        variant: "error",
+      });
+      return;
+    }
+
+    try {
+      setSavingReview(true);
+      const token = localStorage.getItem("token");
+      const sentiment = detectSentiment(form.comment);
+
+      if (!editingId) {
+        // NEW REVIEW – FormData for images
+        const formData = new FormData();
+        formData.append("guest", form.guest.trim());
+        formData.append("rating", form.rating);
+        formData.append("comment", form.comment.trim());
+        formData.append("sentiment", sentiment);
+
+       selectedFiles.forEach((file) => {
+            formData.append("images", file);
+          });
+
+          console.log("Uploading files:");
+
+          for (let pair of formData.entries()) {
+            console.log(pair[0], pair[1].name || pair[1]);
+          }
+        
+        const res = await fetch(API, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to save review");
+        }
+
+        setReviews((prev) => [data, ...prev]);
+        setToast({
+          show: true,
+          message: "✅ Review added successfully!",
+          variant: "success",
+        });
+      } else {
+        // UPDATE REVIEW – JSON only (no image upload during edit)
+        const res = await fetch(`${API}/${editingId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            guest: form.guest.trim(),
+            rating: Number(form.rating),
+            comment: form.comment.trim(),
+            sentiment,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to update review");
+        }
+
+        setReviews((prev) =>
+          prev.map((review) => (review._id === editingId ? data : review))
+        );
+
+        setToast({
+          show: true,
+          message: "✅ Review updated successfully!",
+          variant: "success",
+        });
+      }
+
+      resetForm();
+    } catch (err) {
+      console.error("SAVE REVIEW ERROR:", err);
+      setToast({
+        show: true,
+        message: err.message || "❌ Something went wrong. Please try again.",
+        variant: "error",
+      });
+    } finally {
+      setSavingReview(false);
+    }
+  };
+
+  // =========================
+  // DELETE REVIEW
+  // =========================
+
+  const handleDelete = async (reviewId) => {
+    if (!window.confirm("Delete this review?")) return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`${API}/${reviewId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Delete failed");
+      }
+
+      setReviews((prev) => prev.filter((review) => review._id !== reviewId));
+      setToast({
+        show: true,
+        message: "🗑️ Review deleted successfully!",
+        variant: "success",
+      });
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+      setToast({
+        show: true,
+        message: "❌ Failed to delete review.",
+        variant: "error",
+      });
+    }
+  };
+
+  // =========================
+  // EDIT REVIEW
+  // =========================
+
+  const handleEdit = (review) => {
+    setEditingId(review._id);
+    setForm({
+      guest: review.guest,
+      rating: review.rating,
+      comment: review.comment,
+    });
+    setSelectedFiles([]);
+    setPreviewImages([]);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // =========================
+  // CANCEL EDIT
+  // =========================
+
+  const cancelEdit = () => {
+    resetForm();
+  };
+
+  // =========================
+  // JSX
+  // =========================
+
   return (
-    <div className="manage-reviews">
-      <div className="page-header">
-        <h1>Manage Reviews</h1>
-        <p className="subtitle">Add, edit, or delete guest reviews.</p>
-        <button
-          className="ai-button"
-          onClick={generateAIResponses}
-          disabled={aiLoading}
-        >
-          {aiLoading ? "⏳ Generating AI Responses..." : "✨ Generate AI Responses"}
-        </button>
-      </div>
+    <>
+      <div className="manage-reviews">
 
-      <div className="form-card">
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            // Validation
-            if (form.guest.trim().length < 2) {
-              setToast({ show: true, message: "Guest name must be at least 2 characters.", variant: "error" });
-              return;
-            }
-            if (form.comment.trim().length < 10) {
-              setToast({ show: true, message: "Comment must be at least 10 characters.", variant: "error" });
-              return;
-            }
-            try {
-              const url = editingId ? `${API}/${editingId}` : API;
-              const method = editingId ? "PUT" : "POST";
-              const sentiment = detectSentiment(form.comment);
-              const token = localStorage.getItem("token");
-              const formData = new FormData();
+        {/* =========================
+            PAGE HEADER
+        ========================= */}
 
-              formData.append("guest", form.guest);
-              formData.append("rating", form.rating);
-              formData.append("comment", form.comment);
-              formData.append("sentiment", sentiment);
+        <div className="page-header">
+          <h1>Manage Reviews</h1>
+          <p className="subtitle">Add, edit, or delete guest reviews.</p>
 
-              selectedImages.forEach((image) => {
-                formData.append("images", image);
-              });
-              console.log("Selected Images:", selectedImages);
+          <button
+            className="ai-button"
+            onClick={generateAIResponses}
+            disabled={aiLoading}
+          >
+            {aiLoading
+              ? "⏳ Generating AI Responses..."
+              : "✨ Generate AI Responses"}
+          </button>
+        </div>
 
-              for (let pair of formData.entries()) {
-                console.log(pair[0], pair[1]);
-              }
-              const res = await fetch(url, {
-                method,
-                headers: {
-                  "Authorization": `Bearer ${token}`
-                },
-                body: formData,
-              });
-              if (!res.ok) {
-                throw new Error("Failed to save review");
-              }
-              setToast({
-                show: true,
-                message: editingId ? "✅ Review updated successfully!" : "✅ Review added successfully!",
-                variant: "success"
-              });
-              setForm({ guest: "", rating: 5, comment: "" });
-              setSelectedImages([]);
-              setPreviewImages([]);
-              setEditingId(null);
-              fetchReviews();
-            } catch (err) {
-              setToast({ show: true, message: "❌ Something went wrong. Please try again.", variant: "error" });
-            }
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Guest Name"
-            value={form.guest}
-            onChange={(e) => setForm({ ...form, guest: e.target.value })}
-            required
-          />
-          <div className="rating-input">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                className={star <= form.rating ? "star active" : "star"}
-                onClick={() => setForm({ ...form, rating: star })}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-          <textarea
-            placeholder="Comment"
-            value={form.comment}
-            onChange={(e) => setForm({ ...form, comment: e.target.value })}
-            required
-          />
-          <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
+        {/* =========================
+            REVIEW FORM
+        ========================= */}
+
+        <div className="form-card">
+          <form onSubmit={handleSubmit}>
+
+            {/* Guest Name */}
+            <input
+              type="text"
+              placeholder="Guest Name"
+              value={form.guest}
+              onChange={(e) => setForm({ ...form, guest: e.target.value })}
+              required
+              disabled={savingReview}
             />
 
-            <div className="image-preview">
-              {previewImages.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="preview"
-                  width="100"
-                />
+            {/* Rating */}
+            <div className="rating-input">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={star <= form.rating ? "star active" : "star"}
+                  onClick={() => {
+                    if (!savingReview) {
+                      setForm({ ...form, rating: star });
+                    }
+                  }}
+                >
+                  ★
+                </span>
               ))}
             </div>
-          <button type="submit">
-            {editingId ? "Update Review" : "Add Review"}
-          </button>
-        </form>
-      </div>
 
-      <hr />
+            {/* Comment */}
+            <textarea
+              placeholder="Comment"
+              value={form.comment}
+              onChange={(e) => setForm({ ...form, comment: e.target.value })}
+              required
+              disabled={savingReview}
+              rows="4"
+            />
 
-      <div className="table-card">
-        <h2>All Reviews</h2>
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Guest</th>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Sentiment</th>
-                <th>AI Response</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reviews.length === 0 ? (
+            {/* ==============================================================
+                FILE UPLOAD + PREVIEW (horizontal row)
+                ============================================================== */}
+
+            <div className="file-upload-group">
+              <div className="file-input-wrapper">
+                <label className="file-label">
+                  {/* Professional Upload Icon */}
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    strokeWidth="2" 
+                    stroke="currentColor" 
+                    width="18" 
+                    height="18"
+                    style={{ marginRight: '8px' }}
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" 
+                    />
+                  </svg>
+                  Choose Files
+                  <input
+                    className="review-file-input"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                    disabled={savingReview}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                <span className="file-name">
+                  {selectedFiles.length > 0
+                    ? `${selectedFiles.length} file(s) selected`
+                    : 'No file chosen'}
+                </span>
+              </div>
+
+              {previewImages.length > 0 && (
+                <div className="image-preview">
+                  {previewImages.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt={`Preview ${index + 1}`}
+                      width="60"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ==============================================================
+                ACTION BUTTONS (horizontal row)
+                ============================================================== */}
+
+            <div className="form-actions">
+              <button type="submit" disabled={savingReview}>
+                {savingReview
+                  ? "⏳ Uploading..."
+                  : editingId
+                  ? "Update Review"
+                  : "Add Review"}
+              </button>
+
+              {editingId && (
+                <button type="button" onClick={cancelEdit} disabled={savingReview}>
+                  Cancel Edit
+                </button>
+              )}
+            </div>
+
+          </form>
+        </div>
+
+        <hr />
+
+        {/* =========================
+            ALL REVIEWS
+        ========================= */}
+
+        <div className="table-card">
+
+          <h2>All Reviews</h2>
+
+          <div className="table-wrapper">
+
+            <table>
+
+              <thead>
                 <tr>
-                  <td colSpan="7" style={{ textAlign: "center", padding: "2rem" }}>
-                    📝 No reviews yet. Add your first review above!
-                  </td>
+                  <th>Guest</th>
+                  <th>Rating</th>
+                  <th>Comment</th>
+                  <th>Sentiment</th>
+                  <th>AI Response</th>
+                  <th>Actions</th>
                 </tr>
-              ) : (
-                reviews.map((review) => (
-                  <tr key={review._id}>
-                    <td data-label="Guest">{review.guest}</td>
-                    <td data-label="Rating" className="rating-stars-cell">
-                      {renderStars(review.rating)}
-                    </td>
-                    <td data-label="Comment">
-                    <p>{review.comment}</p>
+              </thead>
 
-                    {review.images && review.images.length > 0 && (
-                      <div className="review-images">
-                       {review.images.map((img, index) => (
-                        <img
-                          key={index}
-                          src={img}
-                          alt="review"
-                          width="80"
-                          className="clickable-image"
-                          onClick={() => setSelectedImage(img)}
-                        />
-                      ))}
-                      </div>
-                    )}
-                  </td>
-                    <td data-label="Sentiment" className={`sentiment-${review.sentiment}`}>
-                      {review.sentiment}
-                    </td>
-                    <td data-label="AI Response">
-                      {review.aiResponse ? <p>{review.aiResponse}</p> : <span>Not Generated</span>}
-                    </td>
-                    <td data-label="Actions">
-                      <button
-                        onClick={() => {
-                          setEditingId(review._id);
-                          setForm({
-                            guest: review.guest,
-                            rating: review.rating,
-                            comment: review.comment,
-                          });
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={async () => {
-                          if (!window.confirm("Delete this review?")) return;
-                          const token = localStorage.getItem("token");
-                          try {
-                            const res = await fetch(`${API}/${review._id}`, {
-                              method: "DELETE",
-                              headers: { "Authorization": `Bearer ${token}` }
-                            });
-                            if (!res.ok) throw new Error("Delete failed");
-                            setToast({ show: true, message: "🗑️ Review deleted successfully!", variant: "success" });
-                            fetchReviews();
-                          } catch (err) {
-                            setToast({ show: true, message: "❌ Failed to delete review.", variant: "error" });
-                          }
-                        }}
-                      >
-                        Delete
-                      </button>
+              <tbody>
+
+                {reviews.length === 0 ? (
+
+                  <tr>
+                    <td colSpan="6" style={{ textAlign: "center", padding: "2rem" }}>
+                      📝 No reviews yet. Add your first review above!
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+
+                ) : (
+
+                  reviews.map((review) => (
+
+                    <tr key={review._id}>
+
+                      {/* Guest */}
+                      <td data-label="Guest">{review.guest}</td>
+
+                      {/* Rating */}
+                      <td data-label="Rating" className="rating-stars-cell">
+                        {renderStars(review.rating)}
+                      </td>
+
+                      {/* Comment + Images */}
+                      <td data-label="Comment">
+                        <p>{review.comment}</p>
+
+                        {review.images && review.images.length > 0 && (
+                          <div className="review-images">
+                            {review.images.map((img, index) => (
+                              <img
+                                key={index}
+                                src={img}
+                                alt={`Review image ${index + 1}`}
+                                width="80"
+                                className="clickable-image"
+                                onClick={() => openGallery(review.images, index)}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </td>
+
+                      {/* Sentiment */}
+                      <td data-label="Sentiment" className={`sentiment-${review.sentiment}`}>
+                        {review.sentiment}
+                      </td>
+
+                      {/* AI Response */}
+                      <td data-label="AI Response">
+                        {review.aiResponse ? (
+                          <p>{review.aiResponse}</p>
+                        ) : (
+                          <span>Not Generated</span>
+                        )}
+                      </td>
+
+                      {/* Actions */}
+                      <td data-label="Actions">
+                        <button onClick={() => handleEdit(review)} disabled={savingReview}>
+                          Edit
+                        </button>
+                        <button onClick={() => handleDelete(review._id)} disabled={savingReview}>
+                          Delete
+                        </button>
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
         </div>
       </div>
 
-      
-      {/* Image Modal */}
-{selectedImage && (
-  <div 
-    className="image-modal"
-    onClick={() => setSelectedImage(null)}
-  >
-    <img
-      src={selectedImage}
-      alt="Large preview"
-      className="large-image"
-      onClick={(e) => e.stopPropagation()}
-    />
+      {/* =========================
+          IMAGE MODAL
+      ========================= */}
 
-    <button
-      className="close-image"
-     onClick={(e) => {
-  e.stopPropagation();
-  setSelectedImage(null);
-}}
-    >
-      ✕
-    </button>
-  </div>
-)}
-{selectedImage && createPortal(
-  <div className="image-modal" onClick={() => setSelectedImage(null)}>
-    <img src={selectedImage} alt="Large preview" className="large-image" onClick={(e) => e.stopPropagation()} />
-    <button className="close-image" onClick={() => setSelectedImage(null)}>✕</button>
-  </div>,
-  document.body
-)}
+      {galleryImages.length > 0 &&
+        createPortal(
+          <div
+            className="image-modal"
+            onClick={() => setGalleryImages([])}
+          >
 
-{/* Toast component rendered at the end */}
-{toast.show && (
-  <Toast
-    message={toast.message}
-    variant={toast.variant}
-    onClose={() => setToast({ show: false, message: "", variant: "success" })}
-  />
-)}
-    </div>
-    
+            <button
+              className="close-image"
+              onClick={(e) => {
+                e.stopPropagation();
+                setGalleryImages([]);
+              }}
+            >
+              ✕
+            </button>
+
+            <button
+              className="prev-image"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIndex(
+                  (currentIndex - 1 + galleryImages.length) % galleryImages.length
+                );
+              }}
+            >
+              ❮
+            </button>
+
+            <img
+              src={galleryImages[currentIndex]}
+              className="large-image"
+              alt="Review"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            <button
+              className="next-image"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIndex((currentIndex + 1) % galleryImages.length);
+              }}
+            >
+              ❯
+            </button>
+
+          </div>,
+          document.body
+        )}
+
+      {/* =========================
+          TOAST
+      ========================= */}
+
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          variant={toast.variant}
+          onClose={() => setToast({ show: false, message: "", variant: "success" })}
+        />
+      )}
+    </>
   );
 }
 

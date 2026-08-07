@@ -39,9 +39,11 @@ exports.createReview = async (req, res) => {
     console.log("Logged in user:", req.user);
     console.log("BODY:", req.body);
     console.log("FILES:", req.files);
-    const imageUrls = req.files
-    ? req.files.map((file) => file.path)
-    : [];
+    const imageUrls = req.files?.map(
+  (file) => file.secure_url || file.path
+) || [];
+
+console.log("IMAGE URLS:", imageUrls);
 
     const review = new Review({
     guest: req.body.guest,

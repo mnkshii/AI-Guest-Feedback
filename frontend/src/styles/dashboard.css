@@ -624,41 +624,78 @@
 }
 
 
-.image-modal .close-image {
-  position: fixed !important;
-  top: 28px !important;
-  right: 28px !important;
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 50% !important;
-  border: none !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
-  font-size: 28px !important;
-  font-weight: 300 !important;
-  cursor: pointer !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.25s ease !important;
-  z-index: 9999999999 !important;
-  line-height: 1 !important;
-  padding: 0 !important;
-  
+/* =========================
+   IMAGE MODAL BUTTONS
+========================= */
+
+.image-modal button {
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
-/* Hover effect */
-.image-modal .close-image:hover {
-  background: rgba(239, 68, 68, 0.7) !important;
-  backdrop-filter: blur(16px) !important;
-  transform: scale(1.12) rotate(90deg) !important;
-  box-shadow: 0 12px 40px rgba(239, 68, 68, 0.4) !important;
+/* Close button */
+.close-image {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px !important;
 }
 
-/* Click effect */
-.image-modal .close-image:active {
-  transform: scale(0.92) !important;
+.close-image:hover {
+  background: #ef4444;
+  transform: rotate(90deg);
+}
+
+
+/* Previous / Next buttons */
+
+.prev-image,
+.next-image {
+
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.prev-image {
+  left: 40px;
+}
+
+
+.next-image {
+  right: 40px;
+}
+
+
+.prev-image:hover,
+.next-image:hover {
+  background: #6366f1;
+  transform: translateY(-50%) scale(1.1);
 }

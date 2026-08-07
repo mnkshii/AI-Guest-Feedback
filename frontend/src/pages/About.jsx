@@ -6,7 +6,7 @@ import {
   Users,
   Rocket,
 } from "lucide-react";
-
+import { Link } from "react-router-dom";
 function About() {
   return (
     <section className="about-container">
@@ -133,13 +133,10 @@ function About() {
             customer feedback and improve hotel experiences.
           </p>
 
-          <button
-            className="btn btn-primary"
-            onClick={() => alert("Coming Soon!")}
-          >
-            <Rocket size={18}/>
-            &nbsp;Get Started
-          </button>
+           <Link to="/analysis" className="btn-glow"><Rocket size={18}/>
+            &nbsp;Get Started →</Link>
+            
+         
 
         </div>
 

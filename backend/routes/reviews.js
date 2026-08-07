@@ -19,16 +19,8 @@ router.post(
   "/",
   verifyToken,
   upload.array("images", 5),
-  (req, res, next) => {
-    console.log("========== REVIEW UPLOAD DEBUG ==========");
-    console.log("BODY:", req.body);
-    console.log("FILES:", req.files);
-    console.log("==========================================");
-    next();
-  },
   controller.createReview
 );
-
 
 router.put("/:id", verifyToken, controller.updateReview);
 
