@@ -95,18 +95,23 @@ This project uses **MongoDB Atlas** because guest reviews are document-based and
 ![Database Schema](./frontend/src/assets/images/Schema.png)
 ---
 
-## Review Schema
+##  Review Schema
 
-| Field | Type |
-|-------|------|
-| _id | ObjectId |
-| guest | String |
-| date | Date |
-| rating | Number |
-| comment | String |
-| sentiment | String |
-| createdAt | Date |
-| updatedAt | Date |
+| **Field** | **Type** | **Description** |
+|-----------|----------|-----------------|
+| _id | ObjectId | Unique review ID |
+| user | ObjectId | Reference to User who created the review |
+| guest | String | Guest name |
+| date | String | Review date |
+| rating | Number | Rating from 1 to 5 |
+| comment | String | Guest feedback text |
+| images | Array[String] | Uploaded hotel/review images |
+| sentiment | String | Positive, Neutral, or Negative |
+| summary | String | AI-generated review summary |
+| aiResponse | String | AI-generated response for guest |
+| aiStatus | String | Pending or Generated |
+| createdAt | Date | Record creation timestamp |
+| updatedAt | Date | Last update timestamp |
 
 ---
 
