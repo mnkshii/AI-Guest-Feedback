@@ -6,7 +6,7 @@
 
 ### AI Guest Feedback Analyzer is a full-stack web application that uses OpenRouter AI to analyze hotel guest reviews, identify sentiment and key themes, and generate professional management responses in real time.
 
-## 🌐 Live Deployment
+## Live Deployment
 
 - **Frontend:** https://ai-guest-feedback.vercel.app
 - **Backend API:** https://ai-guest-feedback.onrender.com
@@ -15,11 +15,26 @@ The application is publicly accessible and all major features, including authent
 
 ---
 
+## Screenshots
+
+**Home Page**
+![Home Page](./frontend/src/assets/images/home.png)
+
+**Dashboard**
+![Dashboard](./frontend/src/assets/images/dashboard.png)
+
+**AI Analysis**
+![Analysis Page](./frontend/src/assets/images/analysis.png)
+
+---
+
 ## Known Limitations
 
-- The backend is hosted on Render's free tier, so it may take 30–60 seconds to respond after a period of inactivity while the service wakes up.
-- AI responses depend on the availability of the OpenRouter API.
+- The backend is hosted on Render's free tier, so the first request after inactivity may take approximately 30–60 seconds while the service wakes up.
+- AI responses depend on OpenRouter API availability and model availability.
 - Google OAuth requires an active internet connection and valid Google account.
+- Free-tier cloud services may have usage and performance limitations.
+- AI-generated responses should be reviewed by hotel staff before being sent to guests.
 
 
 ---
@@ -34,7 +49,8 @@ The application is publicly accessible and all major features, including authent
   - Add, edit, delete, and view guest reviews
   - Search and organize review records
   - Automatic sentiment tagging
-
+  - Upload and display review images
+    
 -  **Batch AI Processing**
   - Analyze multiple pending reviews with a single click
   - Real-time loading state and error handling
@@ -54,6 +70,7 @@ The application is publicly accessible and all major features, including authent
   - Frontend deployed on Vercel
   - Backend deployed on Render
   - MongoDB Atlas cloud database
+    
 ---
 ##  Tech Stack
 
@@ -64,8 +81,39 @@ The application is publicly accessible and all major features, including authent
 | **Database** | MongoDB Atlas |
 | **AI / LLM** | OpenRouter API (`openai/gpt-4o-mini`) |
 | **Auth** | JWT, Passport.js, Google OAuth 2.0 |
+| **Image Storage** | Cloudinary |
 | **Deployment** | Vercel, Render |
+
 ---
+
+## Architecture
+
+The application follows a client-server architecture:
+
+                    ┌──────────────────────┐
+                    │       React UI       │
+                    │       Vercel         │
+                    └──────────┬───────────┘
+                               │
+                               │ REST API
+                               ▼
+                    ┌──────────────────────┐
+                    │   Node.js + Express  │
+                    │       Render         │
+                    └──────┬───────┬───────┘
+                           │       │
+                  ┌────────┘       └─────────┐
+                  ▼                          ▼
+        ┌─────────────────┐        ┌─────────────────┐
+        │  MongoDB Atlas  │        │  OpenRouter AI  │
+        │ Review Database │        │  LLM Analysis   │
+        └─────────────────┘        └─────────────────┘
+
+
+The frontend communicates with the Express backend through REST APIs. The backend handles authentication, review CRUD operations, database communication, and AI requests.
+
+---
+
 ## How the AI Feature Works
 
 1.  The user clicks **"Generate AI Responses"** on the Manage Reviews page.
@@ -93,9 +141,10 @@ This project uses **MongoDB Atlas** because guest reviews are document-based and
 ## Database Schema
 
 ![Database Schema](./frontend/src/assets/images/Schema.png)
+
 ---
 
-##  Review Schema
+### Review Schema
 
 | **Field** | **Type** | **Description** |
 |-----------|----------|-----------------|
@@ -127,6 +176,7 @@ This project uses **MongoDB Atlas** because guest reviews are document-based and
 | DELETE | /api/reviews/:id | Delete review |
 | POST | /api/ai/analyze |	Analyze a review using AI |
 | POST | /api/ai/generate-responses |	Generate AI responses for pending reviews |
+
 ---
 
 ## Project Structure
@@ -223,19 +273,47 @@ npm run dev
 | Backend | Render |
 | Database | MongoDB Atlas |
 | AI Provider | OpenRouter |
+| Image Storage | Cloudinary |
 
-The frontend is deployed on **Vercel**, while the backend API is hosted on **Render**. Guest review data is stored in **MongoDB Atlas**, and AI-powered sentiment analysis and response generation are provided through the **OpenRouter API**.
+The frontend is deployed on **Vercel**, while the backend API is hosted on **Render**. Guest review data is stored in **MongoDB Atlas**, uploaded images are stored using **Cloudinary**, and AI-powered sentiment analysis and response generation are provided through the **OpenRouter API**.
 
 
 ---
 ## Future Enhancements
 
-- Support multiple AI providers (Gemini, Claude, OpenAI)
+- Support multiple AI providers such as Gemini, Claude, and OpenAI
 - Export AI analysis reports as PDF
 - Email notifications for high-priority negative reviews
 - Advanced dashboard analytics with interactive charts
-- Role-based access control (Admin/Manager)
+- Role-based access control for Admin and Manager accounts
 - Multi-language review analysis
+- Automated review prioritization
+  
+---
+## Credits & Acknowledgements
+
+This project was developed as part of the TBI-GEU Internship Capstone.
+
+Technologies and services used in the project include:
+
+- React.js and Vite for frontend development
+- Node.js and Express.js for backend development
+- MongoDB Atlas for database management
+- OpenRouter API for AI-powered review analysis
+- Cloudinary for image storage
+- Passport.js and Google OAuth 2.0 for authentication
+- Vercel and Render for deployment
+
+I also used AI-assisted development tools for debugging, code guidance, and improving the application during development.
+
+---
+
+## Project Status
+
+Completed — Internship Capstone Project
+
+The application is deployed and its major features, including authentication, review management, dashboard analytics, image uploads, and AI-powered review analysis, are available in the production environment.
+
 ---
 
 ## Author
@@ -243,3 +321,5 @@ The frontend is deployed on **Vercel**, while the backend API is hosted on **Ren
 **Meenakshi Pandey**
 
 GitHub Repository: https://github.com/mnkshii/AI-Guest-Feedback
+
+
