@@ -26,6 +26,9 @@ The application is publicly accessible and all major features, including authent
 **AI Analysis**
 ![Analysis Page](./frontend/src/assets/images/analysis.png)
 
+**Manage Reviews**
+![Home Page](./frontend/src/assets/images/manage.png)
+
 ---
 
 ## Known Limitations
