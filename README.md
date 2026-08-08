@@ -31,6 +31,7 @@ The application is publicly accessible and all major features, including authent
 
 ---
 
+
 ## Known Limitations
 
 - The backend is hosted on Render's free tier, so the first request after inactivity may take approximately 30–60 seconds while the service wakes up.
