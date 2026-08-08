@@ -27,7 +27,7 @@ The application is publicly accessible and all major features, including authent
 ![Analysis Page](./frontend/src/assets/images/analysis.png)
 
 **Manage Reviews**
-![Home Page](./frontend/src/assets/images/manage.png)
+![Manage Review Page](./frontend/src/assets/images/manage.png)
 
 ---
 
