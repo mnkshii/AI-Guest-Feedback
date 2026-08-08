@@ -183,11 +183,7 @@ if (isLoggedIn) {
           <Link to="/register">Register</Link>
           </p>
 
-          <p style={{ marginTop: "10px" }}>
-          <Link to="/forgot-password">
-           Forgot Password?
-          </Link>
-          </p>
+          
         </form>
 
         <div className="login-footer">

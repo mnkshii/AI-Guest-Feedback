@@ -7,7 +7,6 @@ import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import AIAnalysis from "./pages/AIAnalysis";
-import Report from "./pages/Report";
 import ManageReviews from "./pages/ManageReviews";
 import ForgotPassword from "./pages/ForgotPassword";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -28,9 +27,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
             <Route path="/analysis" element={<ProtectedRoute><AIAnalysis /></ProtectedRoute>} />
-            <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/reviews" element={<ProtectedRoute><ManageReviews /></ProtectedRoute>} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth-success" element={<AuthSuccess />} />

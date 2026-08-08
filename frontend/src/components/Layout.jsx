@@ -87,9 +87,6 @@ function Layout() {
         <NavLink to="/analysis" onClick={closeSidebar}>
           <BrainCircuit size={18} /> AI Analysis
         </NavLink>
-        <NavLink to="/report" onClick={closeSidebar}>
-          <FileBarChart2 size={18} /> Reports
-        </NavLink>
         <NavLink to="/reviews" onClick={closeSidebar}>
           <FileText size={18} /> Manage Reviews
         </NavLink>
