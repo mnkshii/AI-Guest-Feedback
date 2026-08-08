@@ -6,9 +6,6 @@ import Toast from "../components/ui/Toast";
 const API = "https://ai-guest-feedback.onrender.com/api/reviews";
 const AI_API = "https://ai-guest-feedback.onrender.com/api/ai/analyze";
 
-// =========================
-// SENTIMENT DETECTION
-// =========================
 
 function detectSentiment(comment) {
   const text = comment.toLowerCase();
@@ -63,10 +60,7 @@ function ManageReviews() {
   const [aiLoading, setAiLoading] = useState(false);
   const [savingReview, setSavingReview] = useState(false);
 
-  // =========================
-  // TOAST
-  // =========================
-
+ 
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
@@ -76,9 +70,7 @@ function ManageReviews() {
     }
   }, [toast.show]);
 
-  // =========================
-  // FETCH REVIEWS
-  // =========================
+  
 
   const fetchReviews = async () => {
     const token = localStorage.getItem("token");
@@ -112,9 +104,8 @@ function ManageReviews() {
     fetchReviews();
   }, [location.pathname]);
 
-  // =========================
-  // GENERATE AI RESPONSES
-  // =========================
+ 
+ 
 
   const generateAIResponses = async () => {
     try {
@@ -204,17 +195,13 @@ function ManageReviews() {
     }
   };
 
-  // =========================
-  // STARS
-  // =========================
+  
 
   const renderStars = (rating) => {
     return "★".repeat(rating);
   };
 
-  // =========================
-  // IMAGE SELECTION
-  // =========================
+ 
 
   const handleImageChange = (e) => {
   const files = Array.from(e.target.files || []);
@@ -241,9 +228,7 @@ function ManageReviews() {
   console.log("Selected Files:", files);
 };
 
-  // =========================
-  // RESET FORM
-  // =========================
+  
 
   const resetForm = () => {
     setForm({ guest: "", rating: 5, comment: "" });
@@ -257,9 +242,7 @@ function ManageReviews() {
     }
   };
 
-  // =========================
-  // SUBMIT REVIEW
-  // =========================
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -290,7 +273,7 @@ function ManageReviews() {
       const sentiment = detectSentiment(form.comment);
 
       if (!editingId) {
-        // NEW REVIEW – FormData for images
+       
         const formData = new FormData();
         formData.append("guest", form.guest.trim());
         formData.append("rating", form.rating);
@@ -326,7 +309,7 @@ function ManageReviews() {
           variant: "success",
         });
       } else {
-        // UPDATE REVIEW – JSON only (no image upload during edit)
+        
         const res = await fetch(`${API}/${editingId}`, {
           method: "PUT",
           headers: {
@@ -371,9 +354,7 @@ function ManageReviews() {
     }
   };
 
-  // =========================
-  // DELETE REVIEW
-  // =========================
+
 
   const handleDelete = async (reviewId) => {
     if (!window.confirm("Delete this review?")) return;
@@ -408,9 +389,7 @@ function ManageReviews() {
     }
   };
 
-  // =========================
-  // EDIT REVIEW
-  // =========================
+ 
 
   const handleEdit = (review) => {
     setEditingId(review._id);
@@ -425,26 +404,18 @@ function ManageReviews() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // =========================
-  // CANCEL EDIT
-  // =========================
+  
 
   const cancelEdit = () => {
     resetForm();
   };
 
-  // =========================
-  // JSX
-  // =========================
-
+  
   return (
     <>
       <div className="manage-reviews">
 
-        {/* =========================
-            PAGE HEADER
-        ========================= */}
-
+        
         <div className="page-header">
           <h1>Manage Reviews</h1>
           <p className="subtitle">Add, edit, or delete guest reviews.</p>
@@ -460,9 +431,7 @@ function ManageReviews() {
           </button>
         </div>
 
-        {/* =========================
-            REVIEW FORM
-        ========================= */}
+        
 
         <div className="form-card">
           <form onSubmit={handleSubmit}>
@@ -504,14 +473,12 @@ function ManageReviews() {
               rows="4"
             />
 
-            {/* ==============================================================
-                FILE UPLOAD + PREVIEW (horizontal row)
-                ============================================================== */}
+           
 
             <div className="file-upload-group">
               <div className="file-input-wrapper">
                 <label className="file-label">
-                  {/* Professional Upload Icon */}
+                  
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     fill="none" 
@@ -560,9 +527,7 @@ function ManageReviews() {
               )}
             </div>
 
-            {/* ==============================================================
-                ACTION BUTTONS (horizontal row)
-                ============================================================== */}
+            
 
             <div className="form-actions">
               <button type="submit" disabled={savingReview}>
@@ -585,9 +550,7 @@ function ManageReviews() {
 
         <hr />
 
-        {/* =========================
-            ALL REVIEWS
-        ========================= */}
+        
 
         <div className="table-card">
 
@@ -632,7 +595,7 @@ function ManageReviews() {
                         {renderStars(review.rating)}
                       </td>
 
-                      {/* Comment + Images */}
+                      
                       <td data-label="Comment">
                         <p>{review.comment}</p>
 
@@ -690,9 +653,7 @@ function ManageReviews() {
         </div>
       </div>
 
-      {/* =========================
-          IMAGE MODAL
-      ========================= */}
+      
 
       {galleryImages.length > 0 &&
         createPortal(
@@ -744,9 +705,7 @@ function ManageReviews() {
           document.body
         )}
 
-      {/* =========================
-          TOAST
-      ========================= */}
+      
 
       {toast.show && (
         <Toast

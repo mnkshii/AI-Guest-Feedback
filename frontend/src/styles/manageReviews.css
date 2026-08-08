@@ -431,9 +431,7 @@
   transform: scale(1.1);
 }
 
-/* =========================
-   IMAGE MODAL BUTTONS
-========================= */
+
 
 .image-modal button {
   border: none;
@@ -469,7 +467,7 @@
 }
 
 
-/* Previous / Next buttons */
+
 
 .prev-image,
 .next-image {
@@ -506,7 +504,6 @@
   background: #6366f1;
   transform: translateY(-50%) scale(1.1);
 }
-/* ===== FILE UPLOAD & BUTTONS ROW ===== */
 
 .file-upload-group {
   display: flex;
@@ -534,11 +531,11 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  background: #1e40af;      /* Solid, dark professional blue (instead of gradient) */
+  background: #1e40af;     
   color: #ffffff;
-  padding: 8px 16px;        /* Reduce the padding a bit */
-  border-radius: 8px;       /* Change from 50px/pill to 8px for a sharp modern look */
-  border: none;             /* Remove the thick dark outline */
+  padding: 8px 16px;       
+  border-radius: 8px;      
+  border: none;             
   font-family: system-ui, sans-serif;
   font-weight: 500;
   font-size: 14px;
@@ -546,11 +543,11 @@
 }
 
 .file-label:hover {
-  background: #1e3a8a;      /* Slightly darker on hover */
+  background: #1e3a8a;      
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Keep the "No file chosen" text styling looking clean */
+
 .file-name {
   margin-left: 10px;
   color: #6b7280;
@@ -571,7 +568,7 @@
   height: 60px;
 }
 
-/* ===== ACTION BUTTONS ROW ===== */
+
 
 .form-actions {
   display: flex;
@@ -617,7 +614,7 @@
   color: #ef4444;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
   .file-upload-group {
     flex-direction: column;

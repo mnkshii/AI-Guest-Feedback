@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 function Hero() {
   return (
     <section className="hero">
-      {/* Background Blobs */}
+      
       <div className="blob blob1"></div>
       <div className="blob blob2"></div>
       <div className="blob blob3"></div>
 
-      {/* Left Side */}
+      
       <div className="hero-left">
         <div className="hero-badge">
           <Sparkles size={18} />
@@ -58,7 +58,7 @@ function Hero() {
         </div>
       </div>
 
-      {/* Right Side - Dashboard Preview */}
+      
       <div className="hero-right">
         <div className="dashboard-card">
           <div className="dashboard-top">

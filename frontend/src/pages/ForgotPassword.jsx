@@ -19,7 +19,7 @@ function ForgotPassword() {
       return;
     }
 
-    // Temporary UI until email service is added
+    
     setMessage(
       "If an account exists, a password reset link has been sent."
     );
